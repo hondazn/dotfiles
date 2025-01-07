@@ -1,9 +1,10 @@
 if status is-interactive
 	# Commands to run in interactive sessions can go here
-	source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.fish
+
+	tabs -4
 
 	starship init fish | source
-  fzf --fish | source
+	fzf --fish | source
 
 	# Git
 	alias gst "git status --short --branch"
@@ -13,4 +14,4 @@ if status is-interactive
 	alias gdiffw "git diff --word-diff"
 end
 
-source /home/linuxbrew/.linuxbrew/opt/asdf/libexec/asdf.fish
+eval "$(/opt/homebrew/bin/mise activate fish)"
