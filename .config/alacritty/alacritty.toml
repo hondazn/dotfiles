@@ -1,0 +1,41 @@
+# $HOME/.config/alacritty/alacritty.toml
+# by Rito Ghosh 2023-10-06
+
+# Alacritty now uses TOML formatting for its config files.
+# This is a simple example.
+
+# There are the specification here: https://github.com/alacritty/alacritty/blob/master/extra/man/alacritty.5.scd
+# It is not obvious how it translates to TOML. But it is extremely straightforward.
+
+# example: WINDOW, COLORS, etc. are tables, and should be represented as [window], [colors], respectively.
+# specifics of variables go under them. e.g.- look under "dynamic_padding" under-
+# https://github.com/alacritty/alacritty/blob/master/extra/man/alacritty.5.scd#window
+# write `dynamic_padding = true` (without backticks -`) under the table [window]
+# for variables with multiple values, use "dotted keys". Like setting `padding.x = 5` under [window].
+# This is simple. If not clear, do several trials and errors.
+
+# Below is my initial set-up. The TOML homepage (https://toml.io/en/v1.0.0) was very helpful in figuring this out. 
+# I put the file alacritty.toml in $HOME/.config/alacritty. However it can be kept anywhere among the places mentioned in
+# https://github.com/alacritty/alacritty/tree/master#configuration
+
+[env]
+TERM = "screen-256color"
+
+[window]
+opacity = 0.9
+# padding.x = 1
+# padding.y = 10
+decorations = "Full"
+# decorations_theme_variant = "Dark" # "Dark"
+
+[font]
+normal = { family = "PlemolJP Console NF", style = "Regular" }
+size = 15.0
+
+# [keyboard]
+# bindings = [
+#     { key = "Space", mods = "Control", chars = "\u0000" },
+#     { key = "Slash", mods = "Control", chars = "\u001F" },
+#     { key = "Tab", mods = "Control", chars = "\u001B[27;5;9~"},
+#     { key = "Tab", mods = "Shift|Control", chars = "\u001B[27;6;9~" },
+# ]
