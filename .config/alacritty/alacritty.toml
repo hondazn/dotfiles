@@ -22,7 +22,7 @@
 TERM = "screen-256color"
 
 [window]
-opacity = 0.9
+# opacity = 0.9
 # padding.x = 1
 # padding.y = 10
 decorations = "Full"
@@ -30,12 +30,12 @@ decorations = "Full"
 
 [font]
 normal = { family = "PlemolJP Console NF", style = "Regular" }
-size = 15.0
+size = 14.0
 
-# [keyboard]
-# bindings = [
-#     { key = "Space", mods = "Control", chars = "\u0000" },
-#     { key = "Slash", mods = "Control", chars = "\u001F" },
-#     { key = "Tab", mods = "Control", chars = "\u001B[27;5;9~"},
-#     { key = "Tab", mods = "Shift|Control", chars = "\u001B[27;6;9~" },
-# ]
+[keyboard]
+bindings = [
+    # { key = "Space", mods = "Control", chars = "\u0000" },
+    # { key = "Slash", mods = "Control", chars = "\u001F" },
+    { key = "Tab", mods = "Control", chars = "\u001B[27;5;9~"},
+    { key = "Tab", mods = "Shift|Control", chars = "\u001B[27;6;9~" },
+]
