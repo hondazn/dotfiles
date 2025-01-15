@@ -18,15 +18,8 @@
 # I put the file alacritty.toml in $HOME/.config/alacritty. However it can be kept anywhere among the places mentioned in
 # https://github.com/alacritty/alacritty/tree/master#configuration
 
-[env]
-TERM = "screen-256color"
-
 [window]
-# opacity = 0.9
-# padding.x = 1
-# padding.y = 10
 decorations = "Full"
-# decorations_theme_variant = "Dark" # "Dark"
 
 [font]
 normal = { family = "PlemolJP Console NF", style = "Regular" }
