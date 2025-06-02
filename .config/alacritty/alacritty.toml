@@ -29,6 +29,8 @@ size = 14.0
 bindings = [
     # { key = "Space", mods = "Control", chars = "\u0000" },
     # { key = "Slash", mods = "Control", chars = "\u001F" },
-    { key = "Tab", mods = "Control", chars = "\u001B[27;5;9~"},
-    { key = "Tab", mods = "Shift|Control", chars = "\u001B[27;6;9~" },
+    { key = "Tab", mods = "Control", chars = "\u001b[27;5;9~"},
+    { key = "Tab", mods = "Shift|Control", chars = "\u001b[27;6;9~" },
+    { key = "T", mods = "Shift|Control", chars = "\u001b[84;6u" },
+    { key = "P", mods = "Shift|Control", chars = "\u001b[80;6u" },
 ]
