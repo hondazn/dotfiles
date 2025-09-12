@@ -11,6 +11,14 @@ sudo yabai --load-sa
 #  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)#configure-scripting-addition
 #
 
+yabai -m rule --add app="^System Settings$" sub-layer=below manage=off
+yabai -m rule --add app="^システム設定$" sub-layer=below manage=off
+yabai -m rule --add app="^Finder$" sub-layer=below manage=off
+yabai -m rule --add app="^zoom.us$" sub-layer=below manage=off
+yabai -m rule --add app="^Google Meet$" sub-layer=below manage=off
+yabai -m rule --add app="^メモ$" sub-layer=below manage=off
+yabai -m rule --add app="^Shottr$" sub-layer=below manage=off
+
 # global settings
 yabai -m config                                 \
     mouse_follows_focus          off            \
@@ -40,11 +48,6 @@ yabai -m config                                 \
     mouse_action2                resize         \
     mouse_drop_action            stack
 
-yabai -m rule --add app="^System Settings$" manage=off
-yabai -m rule --add app="^システム設定$" manage=off
-yabai -m rule --add app="^Finder$" manage=off
-yabai -m rule --add app="^zoom.us$" manage=off
-yabai -m rule --add app="^Google Meet$" manage=off
-yabai -m rule --add app="^メモ$" manage=off
+yabai -m signal --add label="flash_focus" event="window_focused" action="yabai -m window \$YABAI_WINDOW_ID --opacity 0.1 && sleep $(yabai -m config window_opacity_duration) && yabai -m window \$YABAI_WINDOW_ID --opacity 0.0"
 
 echo "yabai configuration loaded.."

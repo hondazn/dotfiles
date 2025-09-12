@@ -43,3 +43,6 @@ bindings = [
     { key = "T", mods = "Shift|Control", chars = "\u001b[84;6u" },
     { key = "P", mods = "Shift|Control", chars = "\u001b[80;6u" },
 ]
+
+[bell]
+command = { program = "afplay", args = ["/System/Library/Sounds/Blow.aiff"] }
