@@ -19,7 +19,8 @@
 # https://github.com/alacritty/alacritty/tree/master#configuration
 
 [env]
-TERM = "screen-256color"
+TERM = "alacritty"
+COLORTERM = "truecolor"
 
 [window]
 # opacity = 0.9
@@ -29,8 +30,13 @@ decorations = "Full"
 # decorations_theme_variant = "Dark" # "Dark"
 
 [font]
-normal = { family = "PlemolJP Console NF", style = "Regular" }
+normal = { family = "PlemolJP Console NF" }
 size = 14.0
+
+[cursor]
+style = { shape = "Block", blinking = "Always" }
+blink_interval = 250
+blink_timeout = 0
 
 [keyboard]
 bindings = [
