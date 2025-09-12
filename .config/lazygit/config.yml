@@ -9,5 +9,4 @@ gui:
 refresher:
   refreshInterval: 3
 os:
-  edit: "nvim {{filename}}"
-  editCommand: "nvim {{filename}}"
+  editPreset: "nvim"
