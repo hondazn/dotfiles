@@ -18,12 +18,21 @@
 # I put the file alacritty.toml in $HOME/.config/alacritty. However it can be kept anywhere among the places mentioned in
 # https://github.com/alacritty/alacritty/tree/master#configuration
 
+[env]
+TERM = "alacritty"
+COLORTERM = "truecolor"
+
 [window]
 decorations = "Full"
 
 [font]
-normal = { family = "PlemolJP Console NF", style = "Regular" }
+normal = { family = "PlemolJP Console NF" }
 size = 14.0
+
+[cursor]
+style = { shape = "Block", blinking = "Always" }
+blink_interval = 250
+blink_timeout = 0
 
 [keyboard]
 bindings = [
