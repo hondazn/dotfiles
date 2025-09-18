@@ -42,6 +42,10 @@ bindings = [
     { key = "Tab", mods = "Shift|Control", chars = "\u001b[27;6;9~" },
     { key = "T", mods = "Shift|Control", chars = "\u001b[84;6u" },
     { key = "P", mods = "Shift|Control", chars = "\u001b[80;6u" },
+    { key = "H", mods = "Shift|Control", chars = "\u001b[72;6u" },
+    { key = "J", mods = "Shift|Control", chars = "\u001b[74;6u" },
+	{ key = "K", mods = "Shift|Control", chars = "\u001b[75;6u" },
+	{ key = "L", mods = "Shift|Control", chars = "\u001b[76;6u" },
 ]
 
 [bell]
