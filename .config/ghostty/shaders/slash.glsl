@@ -71,9 +71,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
     float elapsed = iTime - iTimeCursorChange;
 
-    float duration = 0.3;
-    float fadeInTime = 0.03;
-    float fadeOutTime = 0.15;
+    float duration = 0.15; // エフェクトの持続時間（短いほど早く消える）
+    float fadeInTime = 0.02;
+    float fadeOutTime = 0.13;
     float fadeIn = smoothstep(0.0, fadeInTime, elapsed);
     float fadeOut = 1.0 - smoothstep(duration - fadeOutTime, duration, elapsed);
     float fade = clamp(fadeIn * fadeOut, 0.0, 1.0);
@@ -90,8 +90,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 cursorCenter = cursorPos - (cursorSize * offsetFactor);
 
     // === スラッシュエフェクト設定 ===
-    const float SLASH_LENGTH = 0.35; // スラッシュの長さ（正規化座標）
-    const float TIME_MULTIPLIER = 2.5;
+    const float SLASH_LENGTH = 0.24; // スラッシュの長さ（正規化座標）
+    const float TIME_MULTIPLIER = 2.0; // スピード（小さいほど遅い）
     
     // ランダムなスラッシュの角度を生成（カーソル位置とタイムスタンプを組み合わせてシード化）
     float randomSeed = iTimeCursorChange + dot(iCurrentCursor.xy, vec2(12.9898, 78.233));
@@ -117,16 +117,11 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     // 太さの変化：中央が太く、両端が細い（ゲームっぽい剣の軌跡）
     float widthProfile = sin(h * 3.14159) * 1.5 + 0.3;
     
-    // 複数レイヤーのグロー効果
-    float coreGlow = exp(-dist * 150.0 / widthProfile) * (1.0 - t * 0.4); // コアの鋭い光
-    float midGlow = exp(-dist * 50.0 / widthProfile) * (1.0 - t * 0.6) * 0.6; // 中間の柔らかい光
-    float outerGlow = exp(-dist * 20.0 / widthProfile) * (1.0 - t * 0.8) * 0.3; // 外側の広がり
+    // グロー効果を最適化（レイヤーを減らして軽量化）
+    float coreGlow = exp(-dist * 250.0 / widthProfile) * (1.0 - t * 0.4);
+    float outerGlow = exp(-dist * 60.0 / widthProfile) * (1.0 - t * 0.7) * 0.5;
     
-    // ランダムなきらめきを追加（線に沿って）
-    float sparkle = hash11(h * 100.0 + iTime * 10.0) * 0.3;
-    sparkle *= exp(-dist * 250.0) * (1.0 - t);
-    
-    float c0 = (coreGlow * 4.0 + midGlow * 2.5 + outerGlow * 1.5 + sparkle);
+    float c0 = (coreGlow * 4.0 + outerGlow * 2.0);
 
     // 色の合成
     vec3 rgb = c0 * base_color;

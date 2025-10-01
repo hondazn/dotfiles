@@ -1,5 +1,14 @@
-float getSdfRectangle(in vec2 p, in vec2 xy, in vec2 b)
-{
+// 定数定義
+const float PI = 3.14159265359;
+const vec4 LIGHTNING_CORE = vec4(1.0, 0.9, 1.0, 1.0);
+const vec4 LIGHTNING_BRIGHT = vec4(0.8, 0.4, 1.0, 1.0);
+const vec4 LIGHTNING_GLOW = vec4(0.5, 0.3, 0.8, 1.0);
+const float DURATION = 0.3;
+const int SEGMENTS = 12;
+const int BRANCHES = 4;
+const int BRANCH_SEGS = 5;
+
+float getSdfRectangle(in vec2 p, in vec2 xy, in vec2 b) {
     vec2 d = abs(p - xy) - b;
     return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
 }
@@ -10,7 +19,6 @@ float hash(vec2 p) {
     return fract(p.x * p.y);
 }
 
-// 2Dノイズ関数
 float noise(vec2 p) {
     vec2 i = floor(p);
     vec2 f = fract(p);
@@ -24,12 +32,13 @@ float noise(vec2 p) {
     return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 
-// 線分までの距離
-float sdSegment(vec2 p, vec2 a, vec2 b) {
+// 線分までの距離の二乗（sqrt省略版）
+float sdSegmentSq(vec2 p, vec2 a, vec2 b) {
     vec2 pa = p - a;
     vec2 ba = b - a;
     float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
-    return length(pa - ba * h);
+    vec2 diff = pa - ba * h;
+    return dot(diff, diff);
 }
 
 float seg(in vec2 p, in vec2 a, in vec2 b, inout float s, float d) {
@@ -44,20 +53,17 @@ float seg(in vec2 p, in vec2 a, in vec2 b, inout float s, float d) {
     float c2 = 1.0 - step(0.0, e.x * w.y - e.y * w.x);
     float allCond = c0 * c1 * c2;
     float noneCond = (1.0 - c0) * (1.0 - c1) * (1.0 - c2);
-    float flip = mix(1.0, -1.0, step(0.5, allCond + noneCond));
-    s *= flip;
+    s *= mix(1.0, -1.0, step(0.5, allCond + noneCond));
     return d;
 }
 
 float getSdfParallelogram(in vec2 p, in vec2 v0, in vec2 v1, in vec2 v2, in vec2 v3) {
     float s = 1.0;
     float d = dot(p - v0, p - v0);
-
     d = seg(p, v0, v3, s, d);
     d = seg(p, v1, v0, s, d);
     d = seg(p, v2, v1, s, d);
     d = seg(p, v3, v2, s, d);
-
     return s * sqrt(d);
 }
 
@@ -71,230 +77,184 @@ float determineStartVertexFactor(vec2 c, vec2 p) {
     return 1.0 - max(condition1, condition2);
 }
 
-float isLess(float c, float p) {
-    return 1.0 - step(p, c);
-}
-
 vec2 getRectangleCenter(vec4 rectangle) {
-    return vec2(rectangle.x + (rectangle.z / 2.), rectangle.y - (rectangle.w / 2.));
+    return vec2(rectangle.x + rectangle.z * 0.5, rectangle.y - rectangle.w * 0.5);
 }
 
 float ease(float x) {
-    return pow(1.0 - x, 3.0);
+    float t = 1.0 - x;
+    return t * t * t;
 }
 
-// 稲妻のパスを計算（太さ情報付き）
+// 垂直ベクトル計算を最適化
+vec2 perpendicular(vec2 v) {
+    return vec2(-v.y, v.x);
+}
+
+// 稲妻パス計算（距離の二乗を使用して最後にsqrt）
 float getLightningPath(vec2 uv, vec2 start, vec2 end, float time, float seed, out float thickness) {
-    float dist = 1e10;
     vec2 dir = end - start;
-    float totalLength = length(dir);
+    float totalLengthSq = dot(dir, dir);
     
-    if (totalLength < 0.001) {
+    // Early exit
+    if (totalLengthSq < 1e-6) {
         thickness = 1.0;
-        return dist;
+        return 1e10;
     }
     
-    vec2 perpDir = normalize(vec2(-dir.y, dir.x));
-    
-    // 稲妻のセグメント数
-    const int segments = 12;
+    float totalLength = sqrt(totalLengthSq);
+    vec2 perpDir = perpendicular(dir) / totalLength; // 正規化を兼ねる
     
     vec2 prevPoint = start;
-    float closestDist = 1e10;
+    float closestDistSq = 1e20;
+    float finalThickness = 1.0;
     
-    for (int i = 1; i <= segments; i++) {
-        float t = float(i) / float(segments);
+    // 時間とシード値を事前計算
+    float timeOffset = time * 2.0 + seed;
+    float seedBase = seed * 10.0;
+    
+    for (int i = 1; i <= SEGMENTS; i++) {
+        float t = float(i) / float(SEGMENTS);
         vec2 basePoint = mix(start, end, t);
         
-        // ノイズでジグザグを作成
-        float noiseVal = noise(vec2(float(i) * 2.0 + seed * 10.0, time * 2.0 + seed));
-        float offset = (noiseVal - 0.5) * 0.15 * totalLength;
-        
-        // 中央部分でより大きく揺らす
-        float amplitude = sin(t * 3.14159) * 1.5;
-        offset *= amplitude;
+        // ノイズ計算の最適化
+        float noiseVal = noise(vec2(float(i) * 2.0 + seedBase, timeOffset));
+        float amplitude = sin(t * PI) * 1.5;
+        float offset = (noiseVal - 0.5) * 0.15 * totalLength * amplitude;
         
         vec2 currentPoint = basePoint + perpDir * offset;
         
-        // このセグメントまでの距離を計算
-        float segDist = sdSegment(uv, prevPoint, currentPoint);
+        // 二乗距離で比較（sqrtを遅延）
+        float segDistSq = sdSegmentSq(uv, prevPoint, currentPoint);
         
-        if (segDist < closestDist) {
-            closestDist = segDist;
-            // このセグメントの太さをランダムに（0.5〜1.5倍）
-            thickness = 0.5 + noise(vec2(float(i) + seed * 20.0, seed * 15.0)) * 1.0;
+        if (segDistSq < closestDistSq) {
+            closestDistSq = segDistSq;
+            finalThickness = 0.5 + noise(vec2(float(i) + seed * 20.0, seed * 15.0));
         }
         
-        dist = min(dist, segDist);
         prevPoint = currentPoint;
     }
     
-    return dist;
+    thickness = finalThickness;
+    return sqrt(closestDistSq);
 }
 
-// 枝稲妻を生成
+// 枝稲妻の最適化
 float getBranchLightning(vec2 uv, vec2 start, vec2 end, float time, float seed, out float thickness) {
-    float dist = 1e10;
     vec2 mainDir = end - start;
-    float totalLength = length(mainDir);
+    float totalLengthSq = dot(mainDir, mainDir);
     
-    if (totalLength < 0.001) {
+    if (totalLengthSq < 1e-6) {
         thickness = 0.5;
-        return dist;
+        return 1e10;
     }
     
-    vec2 perpDir = normalize(vec2(-mainDir.y, mainDir.x));
+    float totalLength = sqrt(totalLengthSq);
+    vec2 mainDirNorm = mainDir / totalLength;
+    vec2 perpDir = perpendicular(mainDirNorm);
     
-    // 枝の数（3-5本程度）
-    const int branches = 4;
+    float minDistSq = 1e20;
+    float finalThickness = 0.5;
     
-    for (int b = 0; b < branches; b++) {
-        // 枝の開始位置（メイン稲妻の途中から）
-        float branchStart = 0.2 + float(b) * 0.2;
+    // 事前計算
+    float timeOffset = time * 3.0;
+    
+    for (int b = 0; b < BRANCHES; b++) {
+        float fb = float(b);
+        float branchStart = 0.2 + fb * 0.2;
         vec2 startPos = mix(start, end, branchStart);
         
-        // 枝の方向（横にずれる）
-        float branchAngle = (noise(vec2(float(b) + seed * 5.0, seed * 7.0)) - 0.5) * 1.5;
-        vec2 branchDir = perpDir * sin(branchAngle) + normalize(mainDir) * cos(branchAngle);
-        float branchLength = totalLength * (0.15 + noise(vec2(float(b) + seed * 3.0, seed)) * 0.15);
+        // 枝の方向計算の最適化
+        float branchAngle = (noise(vec2(fb + seed * 5.0, seed * 7.0)) - 0.5) * 1.5;
+        float sinAngle = sin(branchAngle);
+        float cosAngle = cos(branchAngle);
+        vec2 branchDir = perpDir * sinAngle + mainDirNorm * cosAngle;
+        
+        float branchLength = totalLength * (0.15 + noise(vec2(fb + seed * 3.0, seed)) * 0.15);
         vec2 endPos = startPos + branchDir * branchLength;
         
-        // 枝のセグメント（少なめ）
-        const int branchSegs = 5;
         vec2 prevPoint = startPos;
         
-        for (int i = 1; i <= branchSegs; i++) {
-            float t = float(i) / float(branchSegs);
+        for (int i = 1; i <= BRANCH_SEGS; i++) {
+            float t = float(i) / float(BRANCH_SEGS);
             vec2 basePoint = mix(startPos, endPos, t);
             
-            // 枝のジグザグ（小さめ）
-            float noiseVal = noise(vec2(float(i) * 3.0 + float(b) * 10.0 + seed * 15.0, time * 3.0));
+            float noiseVal = noise(vec2(float(i) * 3.0 + fb * 10.0 + seed * 15.0, timeOffset));
             float offset = (noiseVal - 0.5) * 0.08 * branchLength;
             
             vec2 currentPoint = basePoint + perpDir * offset;
+            float segDistSq = sdSegmentSq(uv, prevPoint, currentPoint);
             
-            float segDist = sdSegment(uv, prevPoint, currentPoint);
-            
-            if (segDist < dist) {
-                // 枝は細め（0.3〜0.7倍）
-                thickness = 0.3 + noise(vec2(float(i) + float(b) * 5.0 + seed * 25.0, seed * 18.0)) * 0.4;
+            if (segDistSq < minDistSq) {
+                minDistSq = segDistSq;
+                finalThickness = 0.3 + noise(vec2(float(i) + fb * 5.0 + seed * 25.0, seed * 18.0)) * 0.4;
             }
             
-            dist = min(dist, segDist);
             prevPoint = currentPoint;
         }
     }
     
-    return dist;
+    thickness = finalThickness;
+    return sqrt(minDistSq);
 }
 
-const vec4 LIGHTNING_CORE = vec4(1.0, 0.9, 1.0, 1.0);
-const vec4 LIGHTNING_BRIGHT = vec4(0.8, 0.4, 1.0, 1.0);
-const vec4 LIGHTNING_GLOW = vec4(0.5, 0.3, 0.8, 1.0);
-const float DURATION = 0.3;
-
-void mainImage(out vec4 fragColor, in vec2 fragCoord)
-{
-    // 前のフレームを読み込み、徐々にフェードアウト
-    fragColor = texture(iChannel0, fragCoord.xy / iResolution.xy);
-    fragColor *= 0.92; // 残像のフェード速度
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    // フェードアウト
+    fragColor = texture(iChannel0, fragCoord.xy / iResolution.xy) * 0.92;
     
-    vec2 vu = norm(fragCoord, 1.);
-    vec2 offsetFactor = vec2(-.5, 0.5);
-
-    vec4 currentCursor = vec4(norm(iCurrentCursor.xy, 1.), norm(iCurrentCursor.zw, 0.));
-    vec4 previousCursor = vec4(norm(iPreviousCursor.xy, 1.), norm(iPreviousCursor.zw, 0.));
+    vec2 vu = norm(fragCoord, 1.0);
+    vec4 currentCursor = vec4(norm(iCurrentCursor.xy, 1.0), norm(iCurrentCursor.zw, 0.0));
+    vec4 previousCursor = vec4(norm(iPreviousCursor.xy, 1.0), norm(iPreviousCursor.zw, 0.0));
 
     vec2 centerCC = getRectangleCenter(currentCursor);
     vec2 centerCP = getRectangleCenter(previousCursor);
-    
-    float sdfCurrentCursor = getSdfRectangle(vu, currentCursor.xy - (currentCursor.zw * offsetFactor), currentCursor.zw * 0.5);
 
     float progress = clamp((iTime - iTimeCursorChange) / DURATION, 0.0, 1.0);
-    float easedProgress = ease(progress);
+    
+    // Early exit - 稲妻が完全に消えたら処理スキップ
+    if (progress >= 1.0) return;
+    
     float lineLength = distance(centerCC, centerCP);
-
-    // 稲妻の軌跡を描画
-    if (lineLength > 0.01 && progress < 1.0) {
-        float seed = fract(iTimeCursorChange * 12.345);
-        
-        // メイン稲妻
-        float mainThickness;
-        float mainLightningDist = getLightningPath(vu, centerCP, centerCC, iTime, seed, mainThickness);
-        
-        // 枝稲妻
-        float branchThickness;
-        float branchLightningDist = getBranchLightning(vu, centerCP, centerCC, iTime, seed, branchThickness);
-        
-        // 各ピクセルが軌跡上のどの位置にあるか (0=開始点, 1=終了点)
-        vec2 toPixel = vu - centerCP;
-        vec2 pathDir = centerCC - centerCP;
-        float pixelProgress = clamp(dot(toPixel, pathDir) / dot(pathDir, pathDir), 0.0, 1.0);
-        
-        // 稲妻が伸びていくアニメーション (0から1に向かって伸びる)
-        float reveal = smoothstep(pixelProgress - 0.1, pixelProgress, easedProgress);
-        
-        // 稲妻が消えていくアニメーション (0から1に向かって消える)
-        float disappear = 1.0 - smoothstep(pixelProgress, pixelProgress + 0.3, progress);
-        
-        // 全体の強度 (伸びる × 消える)
-        float intensity = reveal * disappear;
-        
-        // === メイン稲妻の描画 ===
-        float mainCoreWidth = 0.004 * mainThickness;
-        float mainCore = smoothstep(mainCoreWidth, 0.0, mainLightningDist);
-        
-        float mainBrightWidth = 0.012 * mainThickness;
-        float mainBright = smoothstep(mainBrightWidth, 0.0, mainLightningDist);
-        
-        float mainGlowWidth = 0.045 * mainThickness;
-        float mainGlow = smoothstep(mainGlowWidth, 0.0, mainLightningDist);
-        
-        // === 枝稲妻の描画 ===
-        float branchCoreWidth = 0.003 * branchThickness;
-        float branchCore = smoothstep(branchCoreWidth, 0.0, branchLightningDist);
-        
-        float branchBrightWidth = 0.010 * branchThickness;
-        float branchBright = smoothstep(branchBrightWidth, 0.0, branchLightningDist);
-        
-        float branchGlowWidth = 0.035 * branchThickness;
-        float branchGlow = smoothstep(branchGlowWidth, 0.0, branchLightningDist);
-        
-        // レイヤーを合成（メイン + 枝）
-        vec4 lightning = vec4(0.0);
-        
-        // メイン稲妻
-        lightning = mix(lightning, LIGHTNING_GLOW * 0.4, mainGlow * intensity);
-        lightning = mix(lightning, LIGHTNING_BRIGHT, mainBright * intensity);
-        lightning = mix(lightning, LIGHTNING_CORE, mainCore * intensity);
-        
-        // 枝稲妻（少し暗め）
-        lightning = mix(lightning, LIGHTNING_GLOW * 0.3, branchGlow * intensity * 0.7);
-        lightning = mix(lightning, LIGHTNING_BRIGHT * 0.8, branchBright * intensity * 0.7);
-        lightning = mix(lightning, LIGHTNING_CORE * 0.9, branchCore * intensity * 0.7);
-        
-        // 初期フラッシュ効果
-        float flash = exp(-progress * 10.0) * 0.4;
-        lightning += LIGHTNING_CORE * flash * (mainGlow + branchGlow * 0.5) * intensity;
-        
-        fragColor = max(fragColor, lightning);
-    }
+    if (lineLength <= 0.01) return;
     
-    // カーソル自体の描画（アウトライン + 点滅）
-    float cursorOutlineThickness = 0.002;
-    float cursorOutline = smoothstep(cursorOutlineThickness, 0.0, abs(sdfCurrentCursor)) - 
-                          smoothstep(0.0, -cursorOutlineThickness, sdfCurrentCursor);
+    float easedProgress = ease(progress);
+    float seed = fract(iTimeCursorChange * 12.345);
     
-    // 点滅効果（約1秒周期）
-    float blink = 0.5 + 0.5 * sin(iTime * 3.14159 * 2.0);
-    blink = smoothstep(0.3, 0.7, blink); // シャープな点滅
+    // 稲妻の描画
+    float mainThickness, branchThickness;
+    float mainDist = getLightningPath(vu, centerCP, centerCC, iTime, seed, mainThickness);
+    float branchDist = getBranchLightning(vu, centerCP, centerCC, iTime, seed, branchThickness);
     
-    vec4 cursorColor = vec4(0.8, 0.5, 1.0, 1.0);
+    // 進行度計算
+    vec2 pathDir = centerCC - centerCP;
+    float pathLengthSq = dot(pathDir, pathDir);
+    float pixelProgress = clamp(dot(vu - centerCP, pathDir) / pathLengthSq, 0.0, 1.0);
     
-    // アウトラインの描画
-    fragColor = mix(fragColor, cursorColor, cursorOutline * 0.9);
+    float reveal = smoothstep(pixelProgress - 0.1, pixelProgress, easedProgress);
+    float disappear = 1.0 - smoothstep(pixelProgress, pixelProgress + 0.3, progress);
+    float intensity = reveal * disappear;
     
-    // 点滅するグロー
-    float cursorGlow = smoothstep(0.008, 0.0, abs(sdfCurrentCursor));
-    fragColor = mix(fragColor, cursorColor * 0.4, cursorGlow * blink * 0.5);
+    // Early exit - この位置に稲妻が描画されない場合
+    if (intensity < 0.001) return;
+    
+    // メイン稲妻のレイヤー
+    float mainCore = smoothstep(0.004 * mainThickness, 0.0, mainDist);
+    float mainBright = smoothstep(0.012 * mainThickness, 0.0, mainDist);
+    float mainGlow = smoothstep(0.045 * mainThickness, 0.0, mainDist);
+    
+    // 枝稲妻のレイヤー
+    float branchCore = smoothstep(0.003 * branchThickness, 0.0, branchDist);
+    float branchBright = smoothstep(0.010 * branchThickness, 0.0, branchDist);
+    float branchGlow = smoothstep(0.035 * branchThickness, 0.0, branchDist);
+    
+    // 合成を最適化（mix連鎖を減らす）
+    vec4 lightning = LIGHTNING_GLOW * (mainGlow * intensity * 0.4 + branchGlow * intensity * 0.21);
+    lightning = mix(lightning, LIGHTNING_BRIGHT, (mainBright * intensity + branchBright * intensity * 0.56));
+    lightning = mix(lightning, LIGHTNING_CORE, (mainCore * intensity + branchCore * intensity * 0.63));
+    
+    // 初期フラッシュ
+    float flash = exp(-progress * 10.0) * 0.4;
+    lightning += LIGHTNING_CORE * (flash * (mainGlow + branchGlow * 0.5) * intensity);
+    
+    fragColor = max(fragColor, lightning);
 }
