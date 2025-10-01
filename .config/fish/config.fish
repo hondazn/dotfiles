@@ -13,6 +13,10 @@ if status is-interactive
 	starship init fish | source
 	# direnv hook fish | source
 
+	# PATH settings
+	set -gx PATH $HOME/.local/bin $PATH
+	set -gx PATH $HOME/bin $PATH
+
 	# Alias
 	alias gst "git status --short --branch"
 	alias glog "git log --oneline --decorate=short --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cgreen%h %C(yellow)%cd %Cred%d %Creset%s %Cblue<%cn>'"
