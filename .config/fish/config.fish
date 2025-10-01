@@ -28,8 +28,8 @@ if status is-interactive
 end
 
 # pnpm
-set -gx PNPM_HOME "/Users/sp_user/Library/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
-end
+# set -gx PNPM_HOME "$HOME/Library/pnpm"
+# if not string match -q -- $PNPM_HOME $PATH
+#   set -gx PATH "$PNPM_HOME" $PATH
+# end
 # pnpm end
