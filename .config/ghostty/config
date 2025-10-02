@@ -15,4 +15,4 @@ custom-shader = ./shaders/cursor_blaze.glsl
 custom-shader = ./shaders/cursor_lightning.glsl
 custom-shader = ./shaders/sparks.glsl
 custom-shader = ./shaders/slash.glsl
-custom-shader = ./shaders/static.glsl
+custom-shader = ./shaders/charge.glsl
