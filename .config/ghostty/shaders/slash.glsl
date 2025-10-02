@@ -90,7 +90,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 cursorCenter = cursorPos - (cursorSize * offsetFactor);
 
     // === スラッシュエフェクト設定 ===
-    const float SLASH_LENGTH = 0.24; // スラッシュの長さ（正規化座標）
+    const float SLASH_LENGTH = 0.22; // スラッシュの長さ（正規化座標）
     const float TIME_MULTIPLIER = 2.0; // スピード（小さいほど遅い）
     
     // ランダムなスラッシュの角度を生成（カーソル位置とタイムスタンプを組み合わせてシード化）
