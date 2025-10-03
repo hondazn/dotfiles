@@ -81,7 +81,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     const float TIME_MULTIPLIER = 5.0; // 時間の進み具合（デフォルト: 3、Retina: 5推奨）
     const float TWO_PI = 6.283185;
     const float GAUSSIAN_SCALE = -2.0;
-    const float COLOR_INTENSITY = 3.0; // 色の強さ: 大きいほど明るい (デフォルト: 2.0)
+    const float COLOR_INTENSITY = 2.0; // 色の強さ: 大きいほど明るい (デフォルト: 2.0)
     const float COLOR_FADE_FACTOR = 0.1; // 粒子サイズ: 小さいほど大きい (デフォルト: 0.3)
     
     // カーソルオフセットを事前計算

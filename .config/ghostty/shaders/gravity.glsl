@@ -40,8 +40,8 @@ const float STAGE2_TIME = 5.0;              // 中程度の重力
 const float FADE_IN_TIME = 0.3;
 
 // 透明度調整
-const float PARTICLE_OPACITY = 0.8;         // 通常パーティクルの透明度（0.0-1.0）
-const float ACCRETION_OPACITY = 1.0;        // 降着パーティクルの透明度（0.0-1.0）
+const float PARTICLE_OPACITY = 0.4;         // 通常パーティクルの透明度（0.0-1.0）
+const float ACCRETION_OPACITY = 0.4;        // 降着パーティクルの透明度（0.0-1.0）
 const float CORE_OPACITY = 0.75;             // コアの透明度（0.0-2.0）
 const float WAVE_OPACITY = 1.0;             // 重力波の透明度（0.0-1.0）
 const float OVERALL_OPACITY = 0.3;          // 全体の透明度（0.0-1.0）
@@ -86,10 +86,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     float cursorRadius = length(curHalfSize);
     
     // 色設定
-    vec3 gridColor = vec3(0.4, 0.6, 0.9);
-    vec3 particleColor = vec3(0.6, 0.8, 1.0);
-    vec3 coreColor = vec3(0.9, 0.95, 1.0);
-    vec3 accretionColor = vec3(0.7, 0.85, 1.0);
+    // vec3 gridColor = vec3(0.4, 0.6, 0.9);
+    // vec3 particleColor = vec3(0.6, 0.8, 1.0);
+    // vec3 coreColor = vec3(0.9, 0.95, 1.0);
+    // vec3 accretionColor = vec3(0.7, 0.85, 1.0);
+
+    vec3 base_color = vec3(0.1, 0.5, 2.5);
+	vec3 gridColor = base_color * 0.5;
+	vec3 particleColor = base_color * 0.7;
+	vec3 coreColor = base_color * 1.0;
+	vec3 accretionColor = base_color * 0.8;
     
     // コアの脈動
     float corePulse = 0.7 + 0.3 * sin(timeSinceMove * CORE_PULSE_SPEED);
