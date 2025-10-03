@@ -55,6 +55,16 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec2 centerCC = currentCursor.xy + vec2(curHalfSize.x, -curHalfSize.y);
     vec2 centerCP = previousCursor.xy + vec2(prevHalfSize.x, -prevHalfSize.y);
     
+    // 距離計算（早期判定のため前に移動）
+    vec2 centerDiff = centerCC - centerCP;
+    float lineLength = sqrt(dot(centerDiff, centerDiff));
+    
+    // 移動距離が1文字分以下の場合はエフェクトなし
+    if (lineLength <= 0.025) {
+        fragColor = texture(iChannel0, fragCoord / resXY);
+        return;
+    }
+    
     // 頂点要素の計算（元のロジックを保持）
     float condition1 = step(previousCursor.x, currentCursor.x) * step(currentCursor.y, previousCursor.y);
     float condition2 = step(currentCursor.x, previousCursor.x) * step(previousCursor.y, currentCursor.y);
@@ -76,10 +86,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     // プログレス計算（pow最適化）
     float progress = clamp((iTime - iTimeCursorChange) / DURATION, 0.0, 1.0);
     float easedProgress = (1.0 - progress) * (1.0 - progress) * (1.0 - progress);
-    
-    // 距離計算
-    vec2 centerDiff = centerCC - centerCP;
-    float lineLength = sqrt(dot(centerDiff, centerDiff));
 
     // テクスチャ読み込みを遅延（必要な場合のみ）
     float mod = 0.007;
@@ -102,9 +108,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     trail = mix(trail, TRAIL_COLOR, trailBlend2 + insideTrail);
     
     // カーソル描画
-    float cursorBlend = smoothstep(0.0, sdfCurrentCursor + 0.002, 0.004) * 0.25;
-    trail = mix(trail, TRAIL_COLOR_ACCENT, cursorBlend);
-    trail = mix(trail, TRAIL_COLOR, cursorBlend);
+    float cursorBlend = smoothstep(0.0, sdfCurrentCursor + 0.002, 0.004);
+	trail = mix(trail, vec4(0.0, 0.0, 0.0, 1.0), cursorBlend);  // 黒色に変更
     
     fragColor = mix(trail, baseColor, 1.0 - smoothstep(0.0, sdfCurrentCursor, easedProgress * lineLength));
 }

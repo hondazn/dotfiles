@@ -215,7 +215,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     if (progress >= 1.0) return;
     
     float lineLength = distance(centerCC, centerCP);
-    if (lineLength <= 0.01) return;
+    // 移動距離が1文字分以下の場合はエフェクトなし
+    if (lineLength <= 0.025) return;
     
     float easedProgress = ease(progress);
     float seed = fract(iTimeCursorChange * 12.345);

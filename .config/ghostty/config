@@ -16,3 +16,4 @@ custom-shader = ./shaders/cursor_lightning.glsl
 custom-shader = ./shaders/sparks.glsl
 custom-shader = ./shaders/slash.glsl
 custom-shader = ./shaders/gravity.glsl
+#custom-shader = ./shaders/black.glsl
