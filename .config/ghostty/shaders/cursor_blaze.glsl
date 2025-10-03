@@ -102,7 +102,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     trail = mix(trail, TRAIL_COLOR, trailBlend2 + insideTrail);
     
     // カーソル描画
-    float cursorBlend = smoothstep(0.0, sdfCurrentCursor + 0.002, 0.004);
+    float cursorBlend = smoothstep(0.0, sdfCurrentCursor + 0.002, 0.004) * 0.25;
     trail = mix(trail, TRAIL_COLOR_ACCENT, cursorBlend);
     trail = mix(trail, TRAIL_COLOR, cursorBlend);
     
