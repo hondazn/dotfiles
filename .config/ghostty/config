@@ -1,5 +1,3 @@
-font-family = "PlemolJP Console NF"
-font-size = 15
 adjust-cell-width = "-6%"
 adjust-cell-height = "-7%"
 cursor-invert-fg-bg = true
@@ -15,4 +13,5 @@ custom-shader = ./shaders/cursor_blaze.glsl
 custom-shader = ./shaders/cursor_lightning.glsl
 custom-shader = ./shaders/sparks.glsl
 custom-shader = ./shaders/slash.glsl
-custom-shader = ./shaders/static.glsl
+custom-shader = ./shaders/gravity.glsl
+#custom-shader = ./shaders/cursor_black.glsl
