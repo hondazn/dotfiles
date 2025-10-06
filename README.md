@@ -18,4 +18,4 @@ sudo apt update && sudo apt install -y curl git wget xsel build-essential libssl
 ```
 
 ### Neovim
-[foundamn/config](https://github.com/foundamn/config.nvim)
+[hondazn/config](https://github.com/hondazn/config.nvim)

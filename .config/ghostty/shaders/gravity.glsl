@@ -28,7 +28,6 @@ const float ACCELERATION_FACTOR = 2.0;      // 加速度係数
 
 // 重力源コア
 const float CORE_SIZE = 0.020;              // コアサイズ
-const float CORE_PULSE_SPEED = 5.0;         // コアの脈動速度
 
 // 降着ディスク
 const int ACCRETION_PARTICLES = 5;         // 降着パーティクル数
@@ -86,19 +85,18 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     float cursorRadius = length(curHalfSize);
     
     // 色設定
-    // vec3 gridColor = vec3(0.4, 0.6, 0.9);
-    // vec3 particleColor = vec3(0.6, 0.8, 1.0);
-    // vec3 coreColor = vec3(0.9, 0.95, 1.0);
-    // vec3 accretionColor = vec3(0.7, 0.85, 1.0);
-
     vec3 base_color = vec3(0.1, 0.5, 2.5);
 	vec3 gridColor = base_color * 0.5;
 	vec3 particleColor = base_color * 0.7;
 	vec3 coreColor = base_color * 1.0;
 	vec3 accretionColor = base_color * 0.8;
     
-    // コアの脈動
-    float corePulse = 0.7 + 0.3 * sin(timeSinceMove * CORE_PULSE_SPEED);
+    // 重力波の周期と同期
+    float waveInterval = 1.5;
+    float syncSpeed = 6.28318530718 / waveInterval;  // 2π / 周期
+    
+    // コアの脈動（重力波・カーソルと同期）
+    float corePulse = 0.7 + 0.3 * sin(timeSinceMove * syncSpeed);
     
     // === 重力井戸グリッド ===
     float grid = 0.0;
@@ -244,7 +242,6 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     
     // === 重力波（時々放出） ===
     float waves = 0.0;
-	float waveInterval = 1.5;
     
     if (gravityStage2 > 0.5) {
         float waveTime = mod(timeSinceMove, waveInterval);
@@ -269,10 +266,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec4 effectColor = vec4(finalColor, min(totalEffect, 1.0) * 0.7);
     vec4 result = mix(baseColor, effectColor, min(totalEffect * OVERALL_OPACITY, 0.95));
 
-	    // カーソル内部は色を反転（スムーズに点滅、中間は素早く通過）
+    // カーソル内部は色を反転（スムーズに点滅、中間は素早く通過）
     // 重力波の周期と同期
-    float blinkSpeed = 6.28318530718 / waveInterval;  // 2π / 周期
-    float t = (sin(timeSinceMove * blinkSpeed) * 0.5 + 0.5) * fadeIn;  // 0.0～1.0で滑らかに変化
+    float t = (sin(timeSinceMove * syncSpeed) * 0.5 + 0.5) * fadeIn;  // 0.0～1.0で滑らかに変化
     // S字カーブで中間を素早く通過（0と1付近でゆっくり、0.5付近で速く）
     float invertAmount = t < 0.5 ? pow(t * 2.0, 2.0) * 0.5 : 1.0 - pow((1.0 - t) * 2.0, 2.0) * 0.5;
     vec4 invertedCursor = vec4(1.0 - baseColor.rgb, baseColor.a);
