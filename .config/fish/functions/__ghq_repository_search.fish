@@ -1,6 +1,6 @@
 function __ghq_repository_search -d 'Repository search'
     set -l selector
-    [ -n "$GHQ_SELECTOR" ]; and set selector $GHQ_SELECTOR; or set selector fzf
+    [ -n "$GHQ_SELECTOR" ]; and set selector $GHQ_SELECTOR; or set selector sk
     set -l selector_options
     [ -n "$GHQ_SELECTOR_OPTS" ]; and set selector_options $GHQ_SELECTOR_OPTS
 
