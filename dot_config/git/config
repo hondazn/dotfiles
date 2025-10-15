@@ -1,0 +1,8 @@
+[ghq]
+root=~/git
+[core]
+	quotepath = false
+	autocrlf = false
+	precomposeunicode = true
+[init]
+	defaultBranch = main
