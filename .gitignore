@@ -1,0 +1,5 @@
+.dotter/local.toml
+.dotter/cache.toml
+.dotter/cache
+*/nvim/lazy-lock.json
+*/karabiner/automatic_backups/
