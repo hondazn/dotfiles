@@ -54,5 +54,11 @@ in
 		tailscale
 	];
 
+	home.activation = {
+		linkApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+			${pkgs.coreutils}/bin/ln -sfn "$HOME/.nix-profile/Applications" "$HOME/Applications/Nix Apps"
+		'';
+	};
+
 	home.stateVersion = "25.05";
 }
