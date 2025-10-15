@@ -25,6 +25,7 @@ in
 		zoxide
 		bottom
 		jq
+		tree-sitter
 		ghq
 		delta
 		lazygit
@@ -38,14 +39,18 @@ in
 		plemoljp
 		colima
 		skhd
+		karabiner-elements
+		ice-bar
+		scroll-reverser
+		raycast
 		yabai
 		shottr
-		raycast
 		slack
 		vscode
 		gh
 		claude-code
 		codex
+		tailscale
 	];
 	programs.skim.enable = true;
 	home.stateVersion = "25.05";
