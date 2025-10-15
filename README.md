@@ -1,21 +1,17 @@
 # dotfiles
 
 ## OS
-- Ubuntu
+- Linux
 - MacOS
 
 ## Prerequirements
-* curl
-
-### apt
-```sh
-sudo apt update && sudo apt install -y curl git wget xsel build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-```
+* nix
 
 ## Installation
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/honjet/dotfiles/master/install.sh)"
+```bash
+git clone git@github.com:hondazn/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+# macos: nix run nix-darwin -- switch --flake nix-darwin
+nix run dotter -- deploy
+nix run home-manager -- switch
 ```
-
-### Neovim
-[hondazn/config](https://github.com/hondazn/config.nvim)
