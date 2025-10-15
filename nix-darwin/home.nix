@@ -52,6 +52,16 @@ in
 		codex
 		tailscale
 	];
-	programs.skim.enable = true;
+
+	xdg.configFile."home-manager/home.nix".source = ./home.nix;
+	xdg.configFile."nvim".source = ../../config.nvim;
+	xdg.configFile."fish".source = ../.config/fish;
+	xdg.configFile."git".source = ../.config/git;
+	xdg.configFile."lazygit".source = ../.config/lazygit;
+	xdg.configFile."zellij".source = ../.config/zellij;
+	xdg.configFile."ghostty".source = ../.config/ghostty;
+	xdg.configFile."skhd".source = ../.config/skhd;
+	xdg.configFile."yabai".source = ../.config/yabai;
+
 	home.stateVersion = "25.05";
 }
