@@ -3,15 +3,9 @@ if status is-interactive
 	tabs -4
 
 	# CLI tools
-	if test -e /opt/homebrew/bin/brew
-		eval "$(/opt/homebrew/bin/brew shellenv)"
-	else if test -e /home/linuxbrew/.linuxbrew/bin/brew
-		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-	end
-	# eval "$(/opt/homebrew/bin/brew shellenv)"
 	eval "$(mise activate fish)"
 	starship init fish | source
-	# direnv hook fish | source
+	sk --shell fish | source
 
 	# PATH settings
 	set -gx PATH $HOME/.local/bin $PATH
@@ -30,10 +24,3 @@ if status is-interactive
 	# key bindings
 	bind \cq 'gwcd; commandline -f repaint'
 end
-
-# pnpm
-# set -gx PNPM_HOME "$HOME/Library/pnpm"
-# if not string match -q -- $PNPM_HOME $PATH
-#   set -gx PATH "$PNPM_HOME" $PATH
-# end
-# pnpm end
