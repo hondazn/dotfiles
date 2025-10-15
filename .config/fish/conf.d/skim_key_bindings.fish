@@ -1,1 +1,0 @@
-skim_key_bindings
