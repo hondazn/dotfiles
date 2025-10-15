@@ -1,0 +1,20 @@
+[helpers]
+
+[default]
+depends = []
+
+[default.files]
+"config/git" = { target = "~/.config/git", type = "symbolic", recurse = false }
+"config/ghostty" = { target = "~/.config/ghostty", type = "symbolic", recurse = false }
+"config/fish" = { target = "~/.config/fish", type = "symbolic", recurse = false }
+"config/karabiner" =  {target = "~/.config/karabiner", type = "symbolic", recurse = false }
+"config/lazygit" = { target = "~/.config/lazygit", type = "symbolic", recurse = false }
+"config/nvim" = { target = "~/.config/nvim", type = "symbolic", recurse = false }
+"config/skhd" = { target = "~/.config/skhd", type = "symbolic", recurse = false }
+"config/yabai" = { target = "~/.config/yabai", type = "symbolic", recurse = false }
+"config/zellij" = { target ="~/.config/zellij", type = "symbolic", recurse = false }
+
+[default.variables]
+
+[settings]
+default_target_type = "automatic"
