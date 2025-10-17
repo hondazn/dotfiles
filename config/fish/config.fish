@@ -3,6 +3,11 @@ if status is-interactive
 	tabs -4
 
 	# CLI tools
+	if test -e /opt/homebrew/bin/brew
+		eval "$(/opt/homebrew/bin/brew shellenv)"
+	else if test -e /home/linuxbrew/.linuxbrew/bin/brew
+		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+	end
 	eval "$(mise activate fish)"
 	starship init fish | source
 	sk --shell fish | source

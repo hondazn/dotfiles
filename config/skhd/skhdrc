@@ -146,7 +146,7 @@
 
 
 # focus window
-alt - x : yabai -m window --focus recent
+#alt - x : yabai -m window --focus recent
 alt - h : yabai -m window --focus west
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
