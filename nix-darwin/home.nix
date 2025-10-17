@@ -1,3 +1,4 @@
+# home.nix
 { pkgs, lib, ... }:
 let
 	username = "hondazn";
@@ -19,8 +20,10 @@ in
 		mise
 		devbox
 		neovim
+		neovide
 		ripgrep
 		fd
+		skim
 		bat
 		eza
 		zoxide
@@ -38,20 +41,20 @@ in
 		zellij
 		ghostty-bin
 		plemoljp
+		docker
 		colima
-		skhd
-		karabiner-elements
 		ice-bar
-		scroll-reverser
 		raycast
-		yabai
 		shottr
 		slack
 		vscode
 		gh
+		awscli
 		claude-code
 		codex
 		tailscale
+		_1password-gui
+		_1password-cli
 	];
 
 	home.activation = {
