@@ -12,3 +12,5 @@ root=~/git
 [user]
 	name = hondazn
 	email = hondazn.dev@gmail.com
+[pull]
+	ff = only
