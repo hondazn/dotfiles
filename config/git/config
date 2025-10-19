@@ -4,5 +4,11 @@ root=~/git
 	quotepath = false
 	autocrlf = false
 	precomposeunicode = true
+	name = hondazn
+	email = hondazn.dev@gmail.com
+	user = hondazn
 [init]
 	defaultBranch = main
+[user]
+	name = hondazn
+	email = hondazn.dev@gmail.com
