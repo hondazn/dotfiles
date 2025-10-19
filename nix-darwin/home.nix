@@ -45,15 +45,11 @@ in
 		colima
 		ice-bar
 		raycast
-		shottr
-		slack
-		vscode
 		gh
 		awscli
 		claude-code
 		codex
 		tailscale
-		_1password-gui
 		_1password-cli
 	];
 

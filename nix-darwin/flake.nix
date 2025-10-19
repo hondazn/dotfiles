@@ -33,6 +33,7 @@
 				# List packages installed in system profile.
 				environment.systemPackages = with pkgs; [
 					vim
+					_1password-gui
 				];
 
 				# Necessary for using flakes on this system.
@@ -69,6 +70,11 @@
 
 				homebrew = {
 					enable = true;
+					taps = [
+						# "jackielii/tap"
+						# "koekeishiya/formulae"
+						"pakerwreah/calendr"
+					];
 					brews = [
 						# "jackielii/tap/skhd-zig"
 						# "koekeishiya/formulae/yabai"
@@ -76,9 +82,8 @@
 					casks = [
 						"scroll-reverser"
 						"karabiner-elements"
+						"calendr"
 						"firefox@nightly"
-						"zen"
-						"pakerwreah/calendr"
 					];
 				};
 			};
