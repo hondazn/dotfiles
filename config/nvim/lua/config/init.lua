@@ -46,6 +46,10 @@ local function paste()
 	}
 end
 
+opt.termguicolors = true
+opt.winblend = 10
+opt.pumblend = 10
+
 if not vim.g.neovide then
 	vim.g.clipboard = {
 		name = "OSC 52",
@@ -66,11 +70,3 @@ opt.scrolloff = 16
 
 -- for GUI
 o.guifont = "PlemolJP Console NF:h14:w-0.5"
-g.neovide_cursor_vfx_mode = { "sonicboom", "railgun" }
-
-if vim.v.servername ~= nil and vim.v.servername ~= "" then
-	vim.g.neovide_cursor_animation_length = 0.400
-	vim.g.neovide_cursor_short_animation_length = 0.08
-	vim.g.neovide_cursor_trail_size = 1.0
-	vim.g.neovide_cursor_vfx_particle_speed = 100.0
-end

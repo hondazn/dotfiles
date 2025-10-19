@@ -1,5 +1,5 @@
 font-family = "PlemolJP Console"
-font-size = 15.0
+font-size = 14.0
 #adjust-cell-width = "-7%"
 #adjust-cell-height = "-7%"
 cursor-invert-fg-bg = true
@@ -7,6 +7,18 @@ cursor-invert-fg-bg = true
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
+
+confirm-close-surface = false
+quit-after-last-window-closed = true
+
+window-height = 40
+window-width = 140
+# window-position-x = 100
+# window-position-y = 180
+
+background-opacity = 0.7
+background-blur = 200
+# background-opacity-cells = true
 
 link-url = true
 link-previews =true
