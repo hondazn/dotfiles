@@ -4,7 +4,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Right Shift to Special Key (⌃⇧fn)",
+                        "description": "Right Shift to Hyper Key",
                         "manipulators": [
                             {
                                 "from": {
@@ -20,7 +20,7 @@
                                 "to_if_alone": [
                                     {
                                         "key_code": "c",
-                                        "modifiers": ["left_control", "fn"]
+                                        "modifiers": ["left_control", "left_command", "left_option", "left_shift"]
                                     }
                                 ],
                                 "type": "basic"
