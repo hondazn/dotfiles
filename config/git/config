@@ -4,6 +4,7 @@ root=~/git
 	quotepath = false
 	autocrlf = false
 	precomposeunicode = true
+	editor = nvim
 [init]
 	defaultBranch = main
 [user]
