@@ -30,10 +30,13 @@
 				# Disable NixOS module support.
 				nix.enable = false;
 
+				environment.variables = {
+					EDITOR = "nvim";
+				};
+
 				# List packages installed in system profile.
 				environment.systemPackages = with pkgs; [
 					vim
-					_1password-gui
 				];
 
 				# Necessary for using flakes on this system.
