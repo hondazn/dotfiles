@@ -1,5 +1,5 @@
 font-family = "PlemolJP Console"
-font-size = 14.0
+font-size = 14.5
 #adjust-cell-width = "-7%"
 #adjust-cell-height = "-7%"
 cursor-invert-fg-bg = true
@@ -16,7 +16,7 @@ window-width = 140
 # window-position-x = 100
 # window-position-y = 180
 
-background-opacity = 0.7
+background-opacity = 0.75
 background-blur = 200
 # background-opacity-cells = true
 
@@ -32,3 +32,4 @@ custom-shader = ./shaders/sparks.glsl
 custom-shader = ./shaders/slash.glsl
 custom-shader = ./shaders/gravity.glsl
 #custom-shader = ./shaders/cursor_black.glsl
+keybind = shift+enter=text:\x1b\r

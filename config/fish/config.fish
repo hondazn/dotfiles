@@ -11,12 +11,16 @@ if status is-interactive
 	eval "$(mise activate fish)"
 	starship init fish | source
 	sk --shell fish | source
+	source "$HOME/.cargo/env.fish"
 
 	# PATH settings
 	set -gx PATH $HOME/.local/bin $PATH
 	set -gx PATH $HOME/bin $PATH
+	set -gx EDITOR nvim
 
 	# Alias
+	alias ll "eza -la --color=always --group-directories-first --icons"
+	alias la "eza -a --color=always --group-directories-first --icons"
 	alias gst "git status --short --branch"
 	alias glog "git log --oneline --decorate=short --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cgreen%h %C(yellow)%cd %Cred%d %Creset%s %Cblue<%cn>'"
 	alias ggra "git log --graph --oneline --decorate=short --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cgreen%h %C(yellow)%cd %Cred%d %Creset%s %Cblue<%cn>'"

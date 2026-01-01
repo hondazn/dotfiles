@@ -12,6 +12,11 @@ return {
 			json = { "biome" },
 			jsonc = { "biome" },
 			html = { "biome-check" },
+			rust = { "rustfmt" },
 		},
+		format_on_save = function(bufnr)
+			if vim.bo[bufnr].filetype == "rust" then return { timeout_ms = 500, lsp_format = "fallback" } end
+			return -- rust以外は無効
+		end,
 	},
 }

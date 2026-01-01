@@ -26,6 +26,6 @@ require("lazy").setup({
 	},
 }, lazy_config)
 
-vim.cmd("colorscheme oldworld")
+vim.cmd("colorscheme catppuccin-mocha")
 
 require "config"
