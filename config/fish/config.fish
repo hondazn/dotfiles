@@ -17,6 +17,7 @@ if status is-interactive
 	set -gx PATH $HOME/.local/bin $PATH
 	set -gx PATH $HOME/bin $PATH
 	set -gx EDITOR nvim
+	set -gx CLAUDE_CONFIG_DIR $HOME/.config/claude
 
 	# Alias
 	alias ll "eza -la --color=always --group-directories-first --icons"
