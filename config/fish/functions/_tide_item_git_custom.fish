@@ -1,4 +1,4 @@
-function _tide_item_git
+function _tide_item_git_custom
     if git branch --show-current 2>/dev/null | string shorten -"$tide_git_truncation_strategy"m$tide_git_truncation_length | read -l location
         git rev-parse --git-dir --is-inside-git-dir | read -fL gdir in_gdir
         set -f raw_ref $location
