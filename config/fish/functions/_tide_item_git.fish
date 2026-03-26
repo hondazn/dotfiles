@@ -12,9 +12,7 @@ function _tide_item_git
         set location @$_tide_location_color$location
     end
 
-    # Operation
     if test -d $gdir/rebase-merge
-        # Turn ANY into ALL, via double negation
         if not path is -v $gdir/rebase-merge/{msgnum,end}
             read -f step <$gdir/rebase-merge/msgnum
             read -f total_steps <$gdir/rebase-merge/end
@@ -42,9 +40,7 @@ function _tide_item_git
         set -f operation bisect
     end
 
-    # Git status/stash + Upstream behind/ahead
     test $in_gdir = true && set -l _set_dir_opt -C $gdir/..
-    # Suppress errors in case we are in a bare repo or there is no upstream
     set -l stat (git $_set_dir_opt --no-optional-locks status --porcelain 2>/dev/null)
     string match -qr '(0|(?<stash>.*))\n(0|(?<conflicted>.*))\n(0|(?<staged>.*))
 (0|(?<dirty>.*))\n(0|(?<untracked>.*))(\n(0|(?<behind>.*))\t(0|(?<ahead>.*)))?' \
@@ -61,12 +57,39 @@ function _tide_item_git
         set -g tide_git_bg_color $tide_git_bg_color_unstable
     end
 
+    # Branch name segment (powerline style)
     _tide_print_item git $_tide_location_color$tide_git_icon' ' (set_color white; echo -ns $location
-        set_color $tide_git_color_operation; echo -ns ' '$operation ' '$step/$total_steps
-        set_color $tide_git_color_upstream; echo -ns ' ⇣'$behind ' ⇡'$ahead
-        set_color $tide_git_color_stash; echo -ns ' *'$stash
-        set_color $tide_git_color_conflicted; echo -ns ' ~'$conflicted
-        set_color $tide_git_color_staged; echo -ns ' +'$staged
-        set_color $tide_git_color_dirty; echo -ns ' !'$dirty
-        set_color $tide_git_color_untracked; echo -ns ' ?'$untracked)
+        if test -n "$operation"
+            echo -ns ' '$operation
+            if test -n "$step"; echo -ns ' '$step/$total_steps; end
+        end)
+
+    # Store badge data for _tide_item_newline to render after segment suffix
+    set -g _tide_git_badge_behind "$behind"
+    set -g _tide_git_badge_ahead "$ahead"
+    set -g _tide_git_badge_stash "$stash"
+    set -g _tide_git_badge_conflicted "$conflicted"
+    set -g _tide_git_badge_staged "$staged"
+    set -g _tide_git_badge_dirty "$dirty"
+    set -g _tide_git_badge_untracked "$untracked"
+end
+
+# Override _tide_item_newline from _tide_2_line_prompt.fish
+# Renders segment suffix, then catppuccin pill badges, then newline
+function _tide_item_newline
+    set_color $prev_bg_color -b normal
+    v=tide_"$_tide_side"_prompt_suffix echo -ns $$v
+
+    # Catppuccin-mocha pill badges (half-circle style on terminal bg)
+    if test -n "$_tide_git_badge_behind";    set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns $_tide_git_badge_behind; set_color 89B4FA -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_ahead";     set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns $_tide_git_badge_ahead; set_color 89B4FA -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_stash";     set_color CBA6F7 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b CBA6F7; echo -ns $_tide_git_badge_stash; set_color CBA6F7 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_conflicted"; set_color F38BA8 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b F38BA8; echo -ns $_tide_git_badge_conflicted; set_color F38BA8 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_staged";    set_color A6E3A1 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b A6E3A1; echo -ns $_tide_git_badge_staged; set_color A6E3A1 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_dirty";     set_color FAB387 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b FAB387; echo -ns $_tide_git_badge_dirty; set_color FAB387 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_untracked"; set_color 6C7086 -b normal; echo -ns \ue0b6; set_color CDD6F4 -b 6C7086; echo -ns $_tide_git_badge_untracked; set_color 6C7086 -b normal; echo -ns \ue0b4; end
+    set -e _tide_git_badge_behind _tide_git_badge_ahead _tide_git_badge_stash _tide_git_badge_conflicted _tide_git_badge_staged _tide_git_badge_dirty _tide_git_badge_untracked
+
+    echo
+    set -g add_prefix
 end
