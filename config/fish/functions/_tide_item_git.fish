@@ -1,14 +1,20 @@
 function _tide_item_git
     if git branch --show-current 2>/dev/null | string shorten -"$tide_git_truncation_strategy"m$tide_git_truncation_length | read -l location
         git rev-parse --git-dir --is-inside-git-dir | read -fL gdir in_gdir
+        set -f raw_ref $location
+        set -f ref_type branch
         set location $_tide_location_color$location
     else if test $pipestatus[1] != 0
         return
     else if git tag --points-at HEAD | string shorten -"$tide_git_truncation_strategy"m$tide_git_truncation_length | read location
         git rev-parse --git-dir --is-inside-git-dir | read -fL gdir in_gdir
+        set -f raw_ref $location
+        set -f ref_type tag
         set location '#'$_tide_location_color$location
     else
         git rev-parse --git-dir --is-inside-git-dir --short HEAD | read -fL gdir in_gdir location
+        set -f raw_ref $location
+        set -f ref_type commit
         set location @$_tide_location_color$location
     end
 
@@ -55,6 +61,20 @@ function _tide_item_git
         set -g tide_git_bg_color $tide_git_bg_color_urgent
     else if test -n "$staged$dirty$untracked"
         set -g tide_git_bg_color $tide_git_bg_color_unstable
+    end
+
+    # OSC 8 hyperlink for branch/tag/commit
+    if set -l _gh_url (_tide_github_url 2>/dev/null)
+        if test "$ref_type" = commit
+            set -f _link_url "$_gh_url/commit/$raw_ref"
+        else if test "$ref_type" = branch && set -l _m (string match -r '(?:^|[/_-])(\d+)' -- $raw_ref)
+            set -f _link_url "$_gh_url/issues/$_m[2]"
+        else
+            set -f _link_url "$_gh_url/tree/$raw_ref"
+        end
+        set -l _osc8_open (printf '\e]8;;%s\e\\' "$_link_url")
+        set -l _osc8_close (printf '\e]8;;\e\\')
+        set location $_osc8_open$location$_osc8_close
     end
 
     # Branch name segment (powerline style)

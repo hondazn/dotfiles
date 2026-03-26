@@ -6,7 +6,7 @@ set -l unwritable_icon $tide_pwd_icon_unwritable' '
 set -l home_icon $tide_pwd_icon_home' '
 set -l pwd_icon $tide_pwd_icon' '
 
-eval "function _tide_pwd
+eval "function _tide_pwd_inner
     if set -l split_pwd (string replace -r '^$HOME' '~' -- \$PWD | string split /)
         test -w . && set -f split_output \"$pwd_icon\$split_pwd[1]\" \$split_pwd[2..] ||
             set -f split_output \"$unwritable_icon\$split_pwd[1]\" \$split_pwd[2..]
@@ -54,3 +54,16 @@ eval "function _tide_pwd
 
     string join -- / \"$reset_to_color_dirs\$split_output[1]\" \$split_output[2..]
 end"
+
+function _tide_pwd
+    set -l output (_tide_pwd_inner)
+    # _tide_pwd_len is already set as global by _tide_pwd_inner
+
+    if set -l _gh_url (_tide_github_url 2>/dev/null)
+        set -l _osc8_open (printf '\e]8;;%s\e\\' "$_gh_url")
+        set -l _osc8_close (printf '\e]8;;\e\\')
+        echo -ns $_osc8_open$output$_osc8_close
+    else
+        echo -ns $output
+    end
+end
