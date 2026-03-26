@@ -81,13 +81,13 @@ function _tide_item_newline
     v=tide_"$_tide_side"_prompt_suffix echo -ns $$v
 
     # Catppuccin-mocha pill badges (half-circle style on terminal bg)
-    if test -n "$_tide_git_badge_behind";    set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns $_tide_git_badge_behind; set_color 89B4FA -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_ahead";     set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns $_tide_git_badge_ahead; set_color 89B4FA -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_stash";     set_color CBA6F7 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b CBA6F7; echo -ns $_tide_git_badge_stash; set_color CBA6F7 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_conflicted"; set_color F38BA8 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b F38BA8; echo -ns $_tide_git_badge_conflicted; set_color F38BA8 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_staged";    set_color A6E3A1 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b A6E3A1; echo -ns $_tide_git_badge_staged; set_color A6E3A1 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_dirty";     set_color FAB387 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b FAB387; echo -ns $_tide_git_badge_dirty; set_color FAB387 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_untracked"; set_color 6C7086 -b normal; echo -ns \ue0b6; set_color CDD6F4 -b 6C7086; echo -ns $_tide_git_badge_untracked; set_color 6C7086 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_behind";    set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns '⇣'$_tide_git_badge_behind; set_color 89B4FA -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_ahead";     set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns '⇡'$_tide_git_badge_ahead; set_color 89B4FA -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_stash";     set_color CBA6F7 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b CBA6F7; echo -ns '*'$_tide_git_badge_stash; set_color CBA6F7 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_conflicted"; set_color F38BA8 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b F38BA8; echo -ns '~'$_tide_git_badge_conflicted; set_color F38BA8 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_staged";    set_color A6E3A1 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b A6E3A1; echo -ns '+'$_tide_git_badge_staged; set_color A6E3A1 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_dirty";     set_color FAB387 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b FAB387; echo -ns '!'$_tide_git_badge_dirty; set_color FAB387 -b normal; echo -ns \ue0b4; end
+    if test -n "$_tide_git_badge_untracked"; set_color 6C7086 -b normal; echo -ns \ue0b6; set_color CDD6F4 -b 6C7086; echo -ns '?'$_tide_git_badge_untracked; set_color 6C7086 -b normal; echo -ns \ue0b4; end
     set -e _tide_git_badge_behind _tide_git_badge_ahead _tide_git_badge_stash _tide_git_badge_conflicted _tide_git_badge_staged _tide_git_badge_dirty _tide_git_badge_untracked
 
     echo
