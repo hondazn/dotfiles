@@ -63,7 +63,6 @@ function _tide_item_git_custom
         set -g tide_git_bg_color $tide_git_bg_color_unstable
     end
 
-    # OSC 8 hyperlink for branch/tag/commit
     if set -l _gh_url (_tide_github_url 2>/dev/null)
         if test "$ref_type" = commit
             set -f _link_url "$_gh_url/commit/$raw_ref"
@@ -72,19 +71,15 @@ function _tide_item_git_custom
         else
             set -f _link_url "$_gh_url/tree/$raw_ref"
         end
-        set -l _osc8_open (printf '\e]8;;%s\e\\' "$_link_url")
-        set -l _osc8_close (printf '\e]8;;\e\\')
-        set location $_osc8_open$location$_osc8_close
+        set location (_tide_osc8_wrap "$_link_url" "$location")
     end
 
-    # Branch name segment (powerline style)
     _tide_print_item git $_tide_location_color$tide_git_icon' ' (set_color white; echo -ns $location
         if test -n "$operation"
             echo -ns ' '$operation
             if test -n "$step"; echo -ns ' '$step/$total_steps; end
         end)
 
-    # Store badge data for _tide_item_newline to render after segment suffix
     set -g _tide_git_badge_behind "$behind"
     set -g _tide_git_badge_ahead "$ahead"
     set -g _tide_git_badge_stash "$stash"
@@ -100,14 +95,27 @@ function _tide_item_newline
     set_color $prev_bg_color -b normal
     v=tide_"$_tide_side"_prompt_suffix echo -ns $$v
 
-    # Catppuccin-mocha pill badges (half-circle style on terminal bg)
-    if test -n "$_tide_git_badge_behind";    set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns '⇣'$_tide_git_badge_behind; set_color 89B4FA -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_ahead";     set_color 89B4FA -b normal; echo -ns \ue0b6; set_color 1E1E2E -b 89B4FA; echo -ns '⇡'$_tide_git_badge_ahead; set_color 89B4FA -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_stash";     set_color CBA6F7 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b CBA6F7; echo -ns '*'$_tide_git_badge_stash; set_color CBA6F7 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_conflicted"; set_color F38BA8 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b F38BA8; echo -ns '~'$_tide_git_badge_conflicted; set_color F38BA8 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_staged";    set_color A6E3A1 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b A6E3A1; echo -ns '+'$_tide_git_badge_staged; set_color A6E3A1 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_dirty";     set_color FAB387 -b normal; echo -ns \ue0b6; set_color 1E1E2E -b FAB387; echo -ns '!'$_tide_git_badge_dirty; set_color FAB387 -b normal; echo -ns \ue0b4; end
-    if test -n "$_tide_git_badge_untracked"; set_color 6C7086 -b normal; echo -ns \ue0b6; set_color CDD6F4 -b 6C7086; echo -ns '?'$_tide_git_badge_untracked; set_color 6C7086 -b normal; echo -ns \ue0b4; end
+    # Catppuccin-mocha pill badges: name symbol fg_color bg_color
+    set -l _badge_defs \
+        behind '⇣' 1E1E2E 89B4FA \
+        ahead '⇡' 1E1E2E 89B4FA \
+        stash '*' 1E1E2E CBA6F7 \
+        conflicted '~' 1E1E2E F38BA8 \
+        staged '+' 1E1E2E A6E3A1 \
+        dirty '!' 1E1E2E FAB387 \
+        untracked '?' CDD6F4 6C7086
+    for i in (seq 1 4 (count $_badge_defs))
+        set -l name $_badge_defs[$i]
+        set -l symbol $_badge_defs[(math $i + 1)]
+        set -l fg $_badge_defs[(math $i + 2)]
+        set -l bg $_badge_defs[(math $i + 3)]
+        set -l var _tide_git_badge_$name
+        if test -n "$$var"
+            set_color $bg -b normal; echo -ns \ue0b6
+            set_color $fg -b $bg; echo -ns $symbol$$var
+            set_color $bg -b normal; echo -ns \ue0b4
+        end
+    end
     set -e _tide_git_badge_behind _tide_git_badge_ahead _tide_git_badge_stash _tide_git_badge_conflicted _tide_git_badge_staged _tide_git_badge_dirty _tide_git_badge_untracked
 
     echo
