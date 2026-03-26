@@ -2,3 +2,4 @@
 .dotter/cache
 */nvim/lazy-lock.json
 */karabiner/automatic_backups/
+config/git/config.local

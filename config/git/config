@@ -1,14 +1,14 @@
 [ghq]
 root=~/git
+[include]
+	path = config.local
 [core]
 	quotepath = false
 	autocrlf = false
 	precomposeunicode = true
+	excludesfile = /Users/sp_user/.config/git/ignore
 	editor = nvim
 [init]
 	defaultBranch = main
-[user]
-	name = hondazn
-	email = hondazn.dev@gmail.com
 [pull]
 	ff = only
