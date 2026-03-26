@@ -2,6 +2,15 @@ if status is-interactive
 	# Commands to run in interactive sessions can go here
 	tabs -4
 
+	# Environment variables
+	set -gx FZF_DEFAULT_OPTS --height 40%
+	set -gx FZF_DISABLE_KEYBINDINGS 0
+	set -gx FZF_LEGACY_KEYBINDINGS 1
+	set -gx FZF_PREVIEW_DIR_CMD ls
+	set -gx FZF_PREVIEW_FILE_CMD "head -n 10"
+	set -gx FZF_TMUX_HEIGHT 40%
+	set -gx VIRTUAL_ENV_DISABLE_PROMPT true
+
 	# CLI tools
 	if test -e /opt/homebrew/bin/brew
 		eval "$(/opt/homebrew/bin/brew shellenv)"
