@@ -9,7 +9,6 @@ if status is-interactive
 		eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 	end
 	eval "$(mise activate fish)"
-	starship init fish | source
 	sk --shell fish | source
 	source "$HOME/.cargo/env.fish"
 
@@ -17,7 +16,6 @@ if status is-interactive
 	set -gx PATH $HOME/.local/bin $PATH
 	set -gx PATH $HOME/bin $PATH
 	set -gx EDITOR nvim
-	set -gx CLAUDE_CONFIG_DIR $HOME/.config/claude
 
 	# Alias
 	alias ll "eza -la --color=always --group-directories-first --icons"
