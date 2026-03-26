@@ -13,7 +13,6 @@ depends = []
 "config/karabiner" =  { target = "~/.config/karabiner", type = "symbolic", recurse = false, if = "dotter.macos" }
 "config/skhd" = { target = "~/.config/skhd", type = "symbolic", recurse = false, if = "dotter.macos" }
 "config/yabai" = { target = "~/.config/yabai", type = "symbolic", recurse = false, if = "dotter.macos" }
-"config/claude" = { target = "~/.config/claude", type = "symbolic", recurse = false }
 
 [default.variables]
 
