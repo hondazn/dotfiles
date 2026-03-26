@@ -27,6 +27,7 @@ if status is-interactive
 	# PATH settings
 	set -gx PATH $HOME/.local/bin $PATH
 	set -gx PATH $HOME/bin $PATH
+	set -gx XDG_CONFIG_HOME "$HOME/.config" 
 	set -gx EDITOR nvim
 
 	# Alias

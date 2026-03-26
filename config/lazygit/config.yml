@@ -10,4 +10,7 @@ gui:
 refresher:
   refreshInterval: 3
 os:
-  editPreset: "nvim-remote"
+  edit: 'zellij run --floating --close-on-exit --width 80% --height 80% -- nvim {{filename}}'
+  editAtLine: 'zellij run --floating --close-on-exit --width 80% --height 80% -- nvim +{{line}} {{filename}}'
+  editAtLineAndWait: 'zellij run --floating --close-on-exit --blocking --width 80% --height 80% -- nvim +{{line}} -- {{filename}}'
+  editInTerminal: false
