@@ -1,0 +1,22 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="tab-bar"
+    }
+    pane split_direction="vertical" {
+        pane size="35%" command="fish" {
+            args "-ic" "nvim"
+        }
+        pane size="40%" command="fish" focus=true {
+            args "-ic" "claude"
+        }
+        pane size="25%" {
+            pane size="70%" command="fish" {
+                args "-ic" "lazygit"
+            }
+            pane size="30%"
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="status-bar"
+    }
+}
