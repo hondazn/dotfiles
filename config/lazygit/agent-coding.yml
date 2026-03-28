@@ -1,0 +1,3 @@
+gui:
+  expandFocusedSidePanel: true
+  showBottomLine: false

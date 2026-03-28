@@ -3,16 +3,18 @@ layout {
         plugin location="tab-bar"
     }
     pane split_direction="vertical" {
-        pane size="30%" command="fish" {
-            args "-ic" "nvim"
-        }
-        pane size="40%" {
-            pane size="70%" command="fish" focus=true {
-                args "-ic" "claude"
+        pane size="60%" {
+            pane stacked=true size="70%" {
+                pane command="fish" {
+                    args "-ic" "nvim"
+                }
+                pane command="fish" focus=true {
+                    args "-ic" "claude"
+                }
             }
             pane size="30%"
         }
-        pane size="30%" command="fish" {
+        pane size="40%" command="fish" {
             args "-ic" "lazygit -ucf (lazygit -cd)/config.yml,(lazygit -cd)/agent-coding.yml"
         }
     }
