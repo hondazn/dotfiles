@@ -3,13 +3,13 @@ layout {
         plugin location="tab-bar"
     }
     pane split_direction="vertical" {
-        pane size="20%" command="fish" {
+        pane size="25%" command="fish" {
             args "-ic" "lazygit -ucf (lazygit -cd)/config.yml,(lazygit -cd)/agent-coding.yml"
         }
         pane size="60%" command="fish" focus=true {
             args "-ic" "claude"
         }
-        pane size="20%" command="fish" {
+        pane size="15%" command="fish" {
             args "-ic" "nvim -c 'lua Snacks.picker.explorer()'"
         }
     }
@@ -21,9 +21,9 @@ layout {
         tab {
             pane size=1 borderless=true
             pane split_direction="vertical" {
-                pane size="50%" focus=true
+                pane size="60%" focus=true
                 pane size="25%"
-                pane size="25%"
+                pane size="15%"
             }
             pane size=1 borderless=true
         }
