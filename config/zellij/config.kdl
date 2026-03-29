@@ -24,7 +24,18 @@ keybinds clear-defaults=true {
         bind "F" { ToggleFocusFullscreen; }
         bind "i" { SwitchToMode "locked"; }
         //bind "z" { TogglePaneFrames; }
-        bind "o" { 
+        bind "e" {
+			Run "nvim" {
+				floating true
+				close_on_exit true
+				x "10%"
+				y "10%"
+				width "80%"
+				height "80%"
+			};
+			SwitchToMode "locked";
+		}
+        bind "o" {
 			Run "fish" {
 				floating true
 				close_on_exit true
@@ -69,7 +80,7 @@ keybinds clear-defaults=true {
         bind "esc" { SwitchToMode "normal"; }
         bind "Ctrl q" { Quit; }
         // 未使用キー (パススルー防止)
-        bind "c" "e" "g" "m" "q" "t" "u" "v" "y" "x" "f" "z" "w" "b" "r" "[" "]" { SwitchToMode "normal"; }
+        bind "c" "g" "m" "q" "t" "u" "v" "y" "x" "f" "z" "w" "b" "r" "[" "]" { SwitchToMode "normal"; }
         bind "A" "B" "C" "D" "E" "G" "I" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" { SwitchToMode "normal"; }
         bind "0" "`" "~" "!" "@" "#" "$" "%" "^" "&" "*" "(" ")" "_" "+" "=" "{" "}" "|" ":" "\"" "'" "<" ">" "?" "," "." "/" ";" { SwitchToMode "normal"; }
 	}
