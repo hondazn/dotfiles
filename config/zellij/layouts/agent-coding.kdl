@@ -10,7 +10,7 @@ layout {
             args "-ic" "claude"
         }
         pane size="25%" command="fish" {
-            args "-ic" "nvim"
+            args "-ic" "nvim -c 'lua Snacks.picker.explorer()'"
         }
     }
     pane size=1 borderless=true {
