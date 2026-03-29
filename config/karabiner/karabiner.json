@@ -193,10 +193,6 @@
                             "to": [{ "key_code": "delete_or_backspace" }]
                         },
                         {
-                            "from": { "key_code": "backslash" },
-                            "to": [{ "key_code": "return_or_enter" }]
-                        },
-                        {
                             "from": { "key_code": "c" },
                             "to": [{ "key_code": "v" }]
                         },
@@ -217,6 +213,10 @@
                             "to": [{ "key_code": "backslash" }]
                         },
                         {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "key_code": "left_shift" }]
+                        },
+                        {
                             "from": { "key_code": "left_shift" },
                             "to": [{ "key_code": "z" }]
                         },
@@ -231,10 +231,6 @@
                         {
                             "from": { "key_code": "z" },
                             "to": [{ "key_code": "x" }]
-                        },
-                        {
-                            "from": { "key_code": "left_control" },
-                            "to": [{ "key_code": "left_shift" }]
                         }
                     ]
                 },
