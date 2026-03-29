@@ -165,7 +165,7 @@ keybinds clear-defaults=true {
         bind "tab" { MovePane; }
     }
     scroll {
-        bind "e" { EditScrollback; SwitchToMode "normal"; }
+        bind "e" { EditScrollback; SwitchToMode "locked"; }
         bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
     }
     search {
@@ -440,7 +440,7 @@ default_shell "fish"
  
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL
-// scrollback_editor "/usr/bin/vim"
+scrollback_editor "zellij action new-pane --floating --close-on-exit -b --width 90% --height 90% -- nvim"
  
 // A fixed name to always give the Zellij session.
 // Consider also setting `attach_to_session true,`
