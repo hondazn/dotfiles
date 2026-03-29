@@ -4,6 +4,7 @@ function agent-coding -d 'Open agent-coding layout with ghq repo selection'
 
     if test -n "$ZELLIJ"
         zellij action new-tab --layout agent-coding --cwd "$repo"
+        zellij action switch-mode normal
     else
         cd "$repo"
         zellij --layout agent-coding
