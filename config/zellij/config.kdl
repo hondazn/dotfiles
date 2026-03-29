@@ -19,16 +19,26 @@ keybinds clear-defaults=true {
         // ペイン操作
         bind "-" { NewPane "down"; }
         bind "\\" { NewPane "right"; }
-        bind "x" { CloseFocus; }
-        bind "f" { TogglePaneEmbedOrFloating; }
+        //bind "x" { CloseFocus; }
+        //bind "f" { TogglePaneEmbedOrFloating; }
         bind "F" { ToggleFocusFullscreen; }
         bind "i" { SwitchToMode "locked"; }
-        bind "z" { TogglePaneFrames; }
-        bind "o" { FocusNextPane; }
+        //bind "z" { TogglePaneFrames; }
+        bind "o" { 
+			Run "fish" {
+				floating true
+				close_on_exit true
+				x "10%"
+				y "10%"
+				width "80%"
+				height "80%"
+			};
+			SwitchToMode "locked";
+		}
         bind "p" { SwitchFocus; }
-        bind "b" { BreakPane; }
-        bind "[" { BreakPaneLeft; }
-        bind "]" { BreakPaneRight; }
+        //bind "b" { BreakPane; }
+        //bind "[" { BreakPaneLeft; }
+        //bind "]" { BreakPaneRight; }
         // タブ操作
         bind "1" { GoToTab 1; }
         bind "2" { GoToTab 2; }
@@ -40,8 +50,8 @@ keybinds clear-defaults=true {
         bind "8" { GoToTab 8; }
         bind "9" { GoToTab 9; }
         bind "n" { NewTab; }
-        bind "w" { CloseTab; }
-        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
+        //bind "w" { CloseTab; }
+        //bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "tab" { ToggleTab; }
         // セッション
         bind "d" { Detach; }
@@ -50,6 +60,7 @@ keybinds clear-defaults=true {
                 floating true
                 move_to_focused_tab true
             }
+			SwitchToMode "locked";
         }
         bind "a" { Run "fish" "-ic" "agent-coding" { floating true; close_on_exit true; }; SwitchToMode "locked"; }
         // スクロール・レイアウト
@@ -58,7 +69,7 @@ keybinds clear-defaults=true {
         bind "esc" { SwitchToMode "normal"; }
         bind "Ctrl q" { Quit; }
         // 未使用キー (パススルー防止)
-        bind "c" "e" "g" "m" "q" "t" "u" "v" "y" { SwitchToMode "normal"; }
+        bind "c" "e" "g" "m" "q" "t" "u" "v" "y" "x" "f" "z" "w" "b" "r" "[" "]" { SwitchToMode "normal"; }
         bind "A" "B" "C" "D" "E" "G" "I" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" { SwitchToMode "normal"; }
         bind "0" "`" "~" "!" "@" "#" "$" "%" "^" "&" "*" "(" ")" "_" "+" "=" "{" "}" "|" ":" "\"" "'" "<" ">" "?" "," "." "/" ";" { SwitchToMode "normal"; }
 	}
