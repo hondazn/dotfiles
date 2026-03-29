@@ -3,20 +3,41 @@ layout {
         plugin location="tab-bar"
     }
     pane split_direction="vertical" {
-        pane size="30%" command="fish" {
-            args "-ic" "nvim"
-        }
-        pane size="40%" {
-            pane size="70%" command="fish" focus=true {
-                args "-ic" "claude"
-            }
-            pane size="30%"
-        }
-        pane size="30%" command="fish" {
+        pane size="25%" command="fish" {
             args "-ic" "lazygit -ucf (lazygit -cd)/config.yml,(lazygit -cd)/agent-coding.yml"
+        }
+        pane size="50%" command="fish" focus=true {
+            args "-ic" "claude"
+        }
+        pane size="25%" command="fish" {
+            args "-ic" "nvim"
         }
     }
     pane size=1 borderless=true {
         plugin location="status-bar"
+    }
+
+    swap_tiled_layout name="lazygit" {
+        tab {
+            pane size=1 borderless=true
+            pane split_direction="vertical" {
+                pane size="50%" focus=true
+                pane size="25%"
+                pane size="25%"
+            }
+            pane size=1 borderless=true
+        }
+    }
+
+    swap_tiled_layout name="nvim" {
+        tab {
+            pane size=1 borderless=true
+            pane split_direction="vertical" {
+                pane size="25%"
+                pane size="25%"
+                pane size="50%" focus=true
+            }
+            pane size=1 borderless=true
+        }
     }
 }

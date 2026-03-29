@@ -72,7 +72,7 @@ keybinds clear-defaults=true {
         bind "k" { GoToPreviousTab; }
         bind "l" { GoToNextTab; }
         bind "a" { Run "fish" "-ic" "agent-coding" { floating true; close_on_exit true; }; SwitchToMode "locked"; }
-        bind "A" { Run "fish" "-ic" "agent-coding-narrow" { floating true; close_on_exit true; }; SwitchToMode "locked"; }
+
         bind "n" { NewTab; SwitchToMode "locked"; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "s" { ToggleActiveSyncTab; SwitchToMode "locked"; }
