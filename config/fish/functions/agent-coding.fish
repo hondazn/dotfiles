@@ -1,5 +1,5 @@
 function agent-coding -d 'Open agent-coding layout with ghq repo selection'
-    set -l repo (ghq list --full-path | sk --prompt "repo> ")
+    set -l repo (__ghq_list_all | sk --prompt "repo> ")
     test -n "$repo"; or return
 
     if test -n "$ZELLIJ"
