@@ -17,8 +17,8 @@ keybinds clear-defaults=true {
         bind "K" { Resize "Increase up"; }
         bind "L" { Resize "Increase right"; }
         // ペイン操作
-        bind "-" { NewPane "down"; }
-        bind "\\" { NewPane "right"; }
+        bind "-" { NewPane "down"; SwitchToMode "locked"; }
+        bind "\\" { NewPane "right"; SwitchToMode "locked"; }
         //bind "x" { CloseFocus; }
         //bind "f" { TogglePaneEmbedOrFloating; }
         bind "F" { ToggleFocusFullscreen; }
