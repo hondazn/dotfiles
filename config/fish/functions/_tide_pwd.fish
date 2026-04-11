@@ -17,8 +17,6 @@ eval "function _tide_pwd
 
     string join / -- \$split_output | string length -V | read -g _tide_pwd_len
 
-    set -l _tide_marker_idx 0
-
     i=1 for dir_section in \$split_pwd[2..-2]
         string join -- / \$split_pwd[..\$i] | string replace '~' $HOME | read -l parent_dir # Uses i before increment
 
@@ -26,7 +24,6 @@ eval "function _tide_pwd
 
         if path is \$parent_dir/\$dir_section/\$tide_pwd_markers
             set split_output[\$i] \"$color_anchors\$dir_section$reset_to_color_dirs\"
-            set _tide_marker_idx \$i
         else if test \$_tide_pwd_len -gt \$dist_btwn_sides
             string match -qr \"(?<trunc>\..|.)\" \$dir_section
 
@@ -39,17 +36,6 @@ eval "function _tide_pwd
             test -n \"\$trunc\" && set split_output[\$i] \"$color_truncated\$trunc$reset_to_color_dirs\" &&
                 string join / \$split_output | string length -V | read _tide_pwd_len
         end
-    end
-
-    if test \$_tide_marker_idx -eq 0 && path is \$PWD/\$tide_pwd_markers
-        set _tide_marker_idx (count \$split_pwd)
-    end
-
-    if test \$_tide_marker_idx -gt 2
-        set -l _tide_start (math \$_tide_marker_idx - 1)
-        set split_output[\$_tide_start] \"$color_anchors\$split_pwd[\$_tide_start]$reset_to_color_dirs\"
-        set split_output \$split_output[\$_tide_start..]
-        string join / -- \$split_output | string length -V | read _tide_pwd_len
     end
 
     string join -- / \"$reset_to_color_dirs\$split_output[1]\" \$split_output[2..]
