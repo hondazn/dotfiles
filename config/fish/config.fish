@@ -1,7 +1,4 @@
 if status is-interactive
-	# Custom function overrides take precedence over plugin-managed functions/
-	set -g fish_function_path $__fish_config_dir/tide_custom $fish_function_path
-
 	# Commands to run in interactive sessions can go here
 	tabs -4
 
