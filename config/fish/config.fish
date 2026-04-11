@@ -29,6 +29,7 @@ if status is-interactive
 	set -gx PATH $HOME/bin $PATH
 	set -gx XDG_CONFIG_HOME "$HOME/.config" 
 	set -gx EDITOR nvim
+	set -gx CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 1
 
 	# Alias
 	alias ll "eza -la --color=always --group-directories-first --icons"
