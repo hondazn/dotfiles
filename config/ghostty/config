@@ -11,6 +11,9 @@ font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
 
+bell-features = audio
+bell-audio-path = /System/Library/Sounds/Glass.aiff
+
 confirm-close-surface = false
 quit-after-last-window-closed = true
 
