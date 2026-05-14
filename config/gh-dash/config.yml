@@ -78,35 +78,40 @@ defaults:
     refetchIntervalMinutes: 30
 keybindings:
   prs:
-    - key: g
-      name: lazygit
+    - key: D
+      name: diff
       command: >
-        cd {{.RepoPath}} &&
-        git fetch origin {{.HeadRefName}} &&
-        (git stash --include-untracked || true) &&
-        git checkout {{.HeadRefName}} &&
-        zellij run --floating --close-on-exit --width 80% --height 80% -- lazygit
-    - key: e
+        zellij run --floating --close-on-exit --width 80% --height 80% -- bash -c
+        "gh pr diff {{.PrNumber}} -R {{.RepoName}} | delta --dark --paging=always --tabs=4 --true-color=auto --line-numbers"
+    - key: N
       name: nvim
       command: >
-        cd {{.RepoPath}} &&
-        git fetch origin {{.HeadRefName}} &&
-        (git stash --include-untracked || true) &&
-        git checkout {{.HeadRefName}} &&
-        zellij run --floating --close-on-exit --width 80% --height 80% -- nvim
-    - key: o
+        fish -ic "gh-dash-pr-nvim
+        --repo '{{.RepoName}}'
+        --pr '{{.PrNumber}}'
+        --repo-path '{{.RepoPath}}'
+        --head-ref '{{.HeadRefName}}'"
+    - key: O
       name: octo
       command: >
         zellij run --floating --close-on-exit --width 80% --height 80% --
-        nvim -c "Octo pr edit {{.PrNumber}} {{.RepoName}}"
-    - key: s
+        nvim -c "Octo pr review {{.PrNumber}} {{.RepoName}}"
+    - key: I
       name: shell
       command: >
-        cd {{.RepoPath}} &&
-        git fetch origin {{.HeadRefName}} &&
-        (git stash --include-untracked || true) &&
-        git checkout {{.HeadRefName}} &&
-        zellij run --floating --close-on-exit --width 80% --height 80% -- fish
+        fish -ic "gh-dash-pr-shell
+        --repo '{{.RepoName}}'
+        --pr '{{.PrNumber}}'
+        --repo-path '{{.RepoPath}}'
+        --head-ref '{{.HeadRefName}}'"
+    - key: C
+      name: copilot
+      command: >
+        fish -ic "gh-dash-pr-copilot
+        --repo '{{.RepoName}}'
+        --pr '{{.PrNumber}}'
+        --repo-path '{{.RepoPath}}'
+        --head-ref '{{.HeadRefName}}'"
 repoPaths:
     :owner/:repo: ~/git/github.com/:owner/:repo
 theme:
@@ -131,7 +136,7 @@ theme:
             secondary: "#45475a"
             faint: "#313244"
 pager:
-    diff: "delta --dark --paging=never --tabs=4 --true-color=auto --line-numbers --width=variable"
+    diff: "delta --dark --paging=always --tabs=4 --true-color=auto --line-numbers --width=variable"
 confirmQuit: false
 showAuthorIcons: true
 smartFilteringAtLaunch: true
