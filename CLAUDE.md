@@ -23,6 +23,7 @@ config/
 ├── fish/        # Fish shell設定 (mise, sk, cargo)
 ├── git/         # Git設定
 ├── ghostty/     # Ghosttyターミナル設定
+├── gh-dash/     # gh-dash設定
 ├── lazygit/     # LazyGit設定
 ├── karabiner/   # Karabiner-Elements (macOS)
 ├── skhd/        # skhd (macOS)
