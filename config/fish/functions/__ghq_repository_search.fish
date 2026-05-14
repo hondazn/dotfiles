@@ -1,6 +1,6 @@
 function __ghq_repository_search -d 'Repository search'
     set -l selector
-    [ -n "$GHQ_SELECTOR" ]; and set selector $GHQ_SELECTOR; or set selector sk
+    [ -n "$GHQ_SELECTOR" ]; and set selector $GHQ_SELECTOR; or set selector fzf
     set -l selector_options
     [ -n "$GHQ_SELECTOR_OPTS" ]; and set selector_options $GHQ_SELECTOR_OPTS
 
@@ -13,7 +13,7 @@ function __ghq_repository_search -d 'Repository search'
     [ -n "$query" ]; and set flags --query="$query"; or set flags
     switch "$selector"
         case fzf fzf-tmux peco percol fzy sk
-            __ghq_list_all | "$selector" $selector_options $flags | read select
+            ghq list --full-path | "$selector" $selector_options $flags | read select
         case \*
             printf "\nERROR: plugin-ghq is not support '$selector'.\n"
     end
