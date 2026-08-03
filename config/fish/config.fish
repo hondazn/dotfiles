@@ -15,7 +15,10 @@ if status is-interactive
 	# PATH settings
 	set -gx PATH $HOME/.local/bin $PATH
 	set -gx PATH $HOME/bin $PATH
-	set -gx XDG_CONFIG_HOME "$HOME/.config" 
+	set -gx XDG_CONFIG_HOME "$HOME/.config"
+	# Cursor CLI: XDG_CONFIG_HOME があると設定が ~/.config/cursor に逸れる。
+	# agents/skills は常に ~/.cursor なので、設定もここに揃える。
+	set -gx CURSOR_CONFIG_DIR "$HOME/.cursor"
 	set -gx EDITOR nvim
 	set -gx CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 1
 
