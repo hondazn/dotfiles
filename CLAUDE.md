@@ -4,16 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## リポジトリ概要
 
-macOS/Linux対応のdotfilesリポジトリ。[dotter](https://github.com/SuperCuber/dotter)でシンボリックリンクを管理し、各設定ファイルを `~/.config/` 配下にデプロイする。
+macOS/Linux対応のdotfilesリポジトリ。外部依存を持たないbashスクリプト `install.sh` でシンボリックリンクを管理し、各設定ファイルを `~/.config/` 配下にデプロイする。
 
 ## デプロイ
 
 ```bash
-dotter deploy        # シンボリックリンクの作成・更新
-dotter undeploy      # シンボリックリンクの削除
+./install.sh             # シンボリックリンクの作成・更新
+./install.sh uninstall   # このリポジトリを指すリンクのみ削除
+./test.sh                # install.shの振る舞いを検証
 ```
 
-マッピング定義: `.dotter/global.toml` — `config/` 配下のディレクトリが `~/.config/` にシンボリックリンクされる。macOS専用設定（karabiner, skhd, yabai）は `if = "dotter.macos"` で条件分岐。
+マッピング定義: `install.sh` 冒頭の `COMMON_TARGETS` / `MACOS_TARGETS` 配列 — `config/<name>` が `~/.config/<name>` にシンボリックリンクされる。macOS専用設定（karabiner, skhd, yabai）は `uname -s` で条件分岐。リンク先に実体がある場合は `<name>.bak.<日時>` へ退避してから置き換える。
+
+macOS標準のbashは3.2のため、連想配列や `mapfile` は使わない。
 
 ## アーキテクチャ
 
@@ -29,8 +32,8 @@ config/
 ├── skhd/        # skhd (macOS)
 ├── yabai/       # yabai (macOS)
 ├── zellij/      # Zellij設定
-├── tmux/        # tmux設定
-└── alacritty/   # Alacritty設定
+├── tmux/        # tmux設定（未使用・デプロイ対象外）
+└── alacritty/   # Alacritty設定（未使用・デプロイ対象外）
 ```
 
 ### Neovim設定の構造
