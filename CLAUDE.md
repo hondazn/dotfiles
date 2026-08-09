@@ -32,10 +32,14 @@ config/
 ├── karabiner/   # Karabiner-Elements (macOS)
 ├── skhd/        # skhd (macOS)
 ├── yabai/       # yabai (macOS)
-├── zellij/      # Zellij設定
+├── zellij/      # Zellij設定（herdrへ移行・デプロイ対象外）
 ├── tmux/        # tmux設定（未使用・デプロイ対象外）
 └── alacritty/   # Alacritty設定（未使用・デプロイ対象外）
 ```
+
+マルチプレクサは herdr を使う。`config/fish/functions/__herdr_open_tab.fish` が
+`herdr tab create` と `herdr pane run` をまとめており、lazygit・gh-dash から
+新しいタブでコマンドを開く用途はすべてこの関数を経由する。
 
 ### Neovim設定の構造
 
