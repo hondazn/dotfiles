@@ -1,4 +1,4 @@
-function gh-dash-pr-shell -d 'Open a fish shell in the PR worktree via zellij'
+function gh-dash-pr-shell -d 'Open a fish shell in the PR worktree inside a new herdr tab'
     argparse 'repo=' 'pr=' 'repo-path=' 'head-ref=' -- $argv
     or return 1
 
@@ -9,5 +9,5 @@ function gh-dash-pr-shell -d 'Open a fish shell in the PR worktree via zellij'
         --head-ref $_flag_head_ref)
     or return 1
 
-    zellij run --floating --close-on-exit --width 80% --height 80% --cwd "$wt" -- fish
+    __herdr_open_tab --cwd "$wt" --label "shell #$_flag_pr" --focus fish
 end

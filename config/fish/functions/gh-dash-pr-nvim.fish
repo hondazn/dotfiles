@@ -1,4 +1,4 @@
-function gh-dash-pr-nvim -d 'Open a PR worktree in nvim inside a zellij floating pane'
+function gh-dash-pr-nvim -d 'Open a PR worktree in nvim inside a new herdr tab'
     argparse 'repo=' 'pr=' 'repo-path=' 'head-ref=' -- $argv
     or return 1
 
@@ -9,5 +9,5 @@ function gh-dash-pr-nvim -d 'Open a PR worktree in nvim inside a zellij floating
         --head-ref $_flag_head_ref)
     or return 1
 
-    zellij run --floating --close-on-exit --width 80% --height 80% --cwd "$wt" -- nvim
+    __herdr_open_tab --cwd "$wt" --label "nvim #$_flag_pr" --focus nvim
 end

@@ -81,8 +81,8 @@ keybindings:
     - key: D
       name: diff
       command: >
-        zellij run --floating --close-on-exit --width 80% --height 80% -- bash -c
-        "gh pr diff {{.PrNumber}} -R {{.RepoName}} | delta --dark --paging=always --tabs=4 --true-color=auto --line-numbers"
+        fish -ic "__herdr_open_tab --label 'diff #{{.PrNumber}}' --focus
+        'gh pr diff {{.PrNumber}} -R {{.RepoName}} | delta --dark --paging=always --tabs=4 --true-color=auto --line-numbers'"
     - key: N
       name: nvim
       command: >
@@ -91,23 +91,10 @@ keybindings:
         --pr '{{.PrNumber}}'
         --repo-path '{{.RepoPath}}'
         --head-ref '{{.HeadRefName}}'"
-    - key: O
-      name: octo
-      command: >
-        zellij run --floating --close-on-exit --width 80% --height 80% --
-        nvim -c "Octo pr review {{.PrNumber}} {{.RepoName}}"
     - key: I
       name: shell
       command: >
         fish -ic "gh-dash-pr-shell
-        --repo '{{.RepoName}}'
-        --pr '{{.PrNumber}}'
-        --repo-path '{{.RepoPath}}'
-        --head-ref '{{.HeadRefName}}'"
-    - key: C
-      name: copilot
-      command: >
-        fish -ic "gh-dash-pr-copilot
         --repo '{{.RepoName}}'
         --pr '{{.PrNumber}}'
         --repo-path '{{.RepoPath}}'
