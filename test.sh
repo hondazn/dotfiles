@@ -116,6 +116,17 @@ test_uninstall_keeps_parent_of_nested_target() {
   rm -rf "$home"
 }
 
+test_skips_retired_targets() {
+  local home
+  home=$(fake_home)
+
+  HOME="$home" "$INSTALL" >/dev/null
+
+  check 'does not link retired zellij config' \
+    "$(path_state "$home/.config/zellij")" absent
+  rm -rf "$home"
+}
+
 test_uninstall_removes_only_repo_links() {
   local home
   home=$(fake_home)
@@ -141,6 +152,7 @@ for testcase in \
   test_relinks_dead_symlink \
   test_links_nested_file_target \
   test_uninstall_keeps_parent_of_nested_target \
+  test_skips_retired_targets \
   test_uninstall_removes_only_repo_links; do
   "$testcase"
 done

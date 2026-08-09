@@ -12,10 +12,11 @@ CONFIG_HOME="$HOME/.config"
 
 # herdr はディレクトリにログ・ソケット・セッション状態が同居するため、
 # ディレクトリごとではなく config.toml だけをファイル単位でリンクする。
-COMMON_TARGETS=(git ghostty fish zellij nvim lazygit gh-dash herdr/config.toml)
+COMMON_TARGETS=(git ghostty fish nvim lazygit gh-dash herdr/config.toml)
 MACOS_TARGETS=(karabiner skhd yabai)
-# config/alacritty と config/tmux は chezmoi から移行した際の名残で、
-# その後どちらも使っていないため対象に含めない。
+# config/alacritty と config/tmux は chezmoi から移行した際の名残。
+# config/zellij はマルチプレクサを herdr へ移行した際の名残。
+# いずれも使っていないため対象に含めない。
 
 targets() {
   printf '%s\n' "${COMMON_TARGETS[@]}"
