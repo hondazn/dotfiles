@@ -90,6 +90,32 @@ test_relinks_dead_symlink() {
   rm -rf "$home"
 }
 
+test_links_nested_file_target() {
+  local home
+  home=$(fake_home)
+
+  HOME="$home" "$INSTALL" >/dev/null
+
+  check 'creates parent directory for nested target' \
+    "$(readlink "$home/.config/herdr/config.toml")" "$REPO_DIR/config/herdr/config.toml"
+  rm -rf "$home"
+}
+
+test_uninstall_keeps_parent_of_nested_target() {
+  local home
+  home=$(fake_home)
+  HOME="$home" "$INSTALL" >/dev/null
+  printf 'local\n' >"$home/.config/herdr/herdr-server.log"
+
+  HOME="$home" "$INSTALL" uninstall >/dev/null
+
+  check 'removes nested link on uninstall' \
+    "$(path_state "$home/.config/herdr/config.toml")" absent
+  check 'keeps parent directory holding local files' \
+    "$(path_state "$home/.config/herdr/herdr-server.log")" present
+  rm -rf "$home"
+}
+
 test_uninstall_removes_only_repo_links() {
   local home
   home=$(fake_home)
@@ -113,6 +139,8 @@ for testcase in \
   test_stays_idempotent_on_second_run \
   test_backs_up_existing_directory \
   test_relinks_dead_symlink \
+  test_links_nested_file_target \
+  test_uninstall_keeps_parent_of_nested_target \
   test_uninstall_removes_only_repo_links; do
   "$testcase"
 done

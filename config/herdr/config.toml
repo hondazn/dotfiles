@@ -1,0 +1,76 @@
+onboarding = false
+
+[terminal]
+# default_shell = "/home/linuxbrew/.linuxbrew/bin/fish"
+default_shell = "fish"
+
+[keys]
+# Match the Zellij normal-mode workflow without intercepting pane input.
+prefix = "ctrl+space"
+goto = "prefix+shift+g"
+rename_workspace = "prefix+shift+comma"
+open_notification_target = "prefix+shift+o"
+reload_config = "prefix+shift+r"
+
+# Pane movement and operations.
+focus_pane_left = ["prefix+h", "ctrl+shift+h"]
+focus_pane_down = ["prefix+j", "ctrl+shift+j"]
+focus_pane_up = ["prefix+k", "ctrl+shift+k"]
+focus_pane_right = ["prefix+l", "ctrl+shift+l"]
+split_horizontal = "prefix+minus"
+split_vertical = "prefix+backslash"
+close_pane = ["prefix+x", "ctrl+shift+x"]
+zoom = ["prefix+f", "ctrl+shift+f"]
+last_pane = "prefix+p"
+resize_mode = "prefix+plus"
+
+# Tabs, scrollback, and session control.
+new_tab = ["prefix+t", "ctrl+shift+t"]
+previous_tab = ["prefix+shift+tab", "ctrl+shift+tab"]
+next_tab = "ctrl+tab"
+switch_tab = "prefix+1..9"
+close_tab = ["prefix+shift+w", "ctrl+shift+w"]
+edit_scrollback = ["prefix+r", "prefix+s"]
+detach = ["prefix+d", "ctrl+q"]
+
+[[keys.command]]
+key = "prefix+g"
+command = "lazygit"
+description = "run lazygit"
+type = "popup"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+e"
+command = "nvim"
+description = "run nvim"
+type = "popup"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+o"
+command = "fish"
+description = "open fish"
+type = "popup"
+width = "80%"
+height = "80%"
+
+# [[keys.command]]
+# key = "prefix+a"
+# type = "pane"
+# command = "fish -ic agent-coding"
+# description = "run agent-coding"
+
+[ui.sound]
+enabled = true
+
+[ui.toast]
+delivery = "terminal"
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+[experimental]
+pane_history = true

@@ -10,7 +10,9 @@ set -euo pipefail
 REPO_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 CONFIG_HOME="$HOME/.config"
 
-COMMON_TARGETS=(git ghostty fish zellij nvim lazygit gh-dash)
+# herdr はディレクトリにログ・ソケット・セッション状態が同居するため、
+# ディレクトリごとではなく config.toml だけをファイル単位でリンクする。
+COMMON_TARGETS=(git ghostty fish zellij nvim lazygit gh-dash herdr/config.toml)
 MACOS_TARGETS=(karabiner skhd yabai)
 # config/alacritty と config/tmux は chezmoi から移行した際の名残で、
 # その後どちらも使っていないため対象に含めない。
@@ -56,6 +58,7 @@ link_target() { # <name> -> ok | link | backup
     action=backup
   fi
 
+  mkdir -p "$(dirname "$destination")"
   ln -sfn "$source" "$destination"
   printf '%s' "$action"
 }
