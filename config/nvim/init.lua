@@ -25,4 +25,4 @@ require("lazy").setup(lazy_config)
 
 vim.cmd("colorscheme catppuccin-mocha")
 
-require "config"
+require("config")

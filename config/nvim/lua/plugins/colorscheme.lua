@@ -21,12 +21,12 @@ return {
 				rainbow_delimiters = false,
 			},
 			highlight_overrides = {
-				Normal = { bg = 'NONE' },
-				NonText = { bg = 'NONE' },
-				NormalNC = { bg = 'NONE' },
+				Normal = { bg = "NONE" },
+				NonText = { bg = "NONE" },
+				NormalNC = { bg = "NONE" },
 				-- CursorLine = { bg = '#222128' },
 			},
-		}
+		},
 	},
 	{ "kvrohit/mellow.nvim", event = "VeryLazy" },
 	{ "Yazeed1s/minimal.nvim", event = "VeryLazy" },
