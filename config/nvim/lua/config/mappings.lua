@@ -20,7 +20,7 @@ map("v", "<leader>/", "gc", { desc = "Comment line", remap = true })
 ---- oil
 map("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
----- bufferline
+---- snacks: buffer
 map("n", "<leader>q", function() Snacks.bufdelete({ force = true }) end, { desc = "Delete current buffer force" })
 map("n", "<leader>bd", function() Snacks.bufdelete.delete() end, { desc = "Delete current buffer" })
 map("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete all buffers except the current one" })
@@ -55,13 +55,6 @@ map("n", "<leader>ghp", "<CMD>Octo pr list<CR>", { desc = "Octo: PullRequest Lis
 map("n", "<leader>ghc", "<CMD>Octo comment add<CR>", { desc = "Octo: Comment Add" })
 map("n", "<leader>ghn", "<CMD>Octo issue create<CR>", { desc = "Octo: Issue Create" })
 
----- obsidian
--- map("n", "<leader>oo", "<CMD>ObsidianOpen<CR>", { desc = "Obsidian: Open" })
--- map("n", "<leader>oy", "<CMD>ObsidianYesterday<CR>", { desc = "Obsidian: Open" })
--- map("n", "<leader>od", "<CMD>ObsidianToday<CR>", { desc = "Obsidian: Open" })
--- map("n", "<leader>ot", "<CMD>ObsidianTomorrow<CR>", { desc = "Obsidian: Open" })
--- map("n", "<C-t>", "<CMD>ObsidianToggleCheckbox<CR>", { desc = "Obsidian: Open" })
-
 ---- noice
 map("n", "<leader>nn", "<CMD>Noice dismiss<CR>", { desc = "Noice" })
 
@@ -74,7 +67,7 @@ map("n", "<leader>fc", function() Snacks.picker.commands() end, { desc = "Select
 map("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Select find files" })
 map("n", "<leader>fg", function() Snacks.picker.grep() end, { desc = "Select live grep" })
 map("n", "<leader>ft", function() Snacks.picker.colorschemes() end, { desc = "Select colorscheme theme" })
-map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "List git projects" })
+map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "List recent files" })
 map("n", "<leader>fp", function() Snacks.picker.git_projects() end, { desc = "List git projects" })
 map("n", "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })
 map({ "n", "v" }, "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse" })
