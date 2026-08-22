@@ -1,10 +1,12 @@
 return {
 	{
 		"catppuccin/nvim",
-		config = function()
-			flavour = "mocha" -- latte, frappe, macchiato, mocha
-			transparent_background = true
-		end,
+		-- リポジトリ名が nvim のため lazy.nvim が主モジュールを解決できない
+		main = "catppuccin",
+		opts = {
+			flavour = "mocha", -- latte, frappe, macchiato, mocha
+			transparent_background = true,
+		},
 	},
 	"rose-pine/neovim",
 	{
