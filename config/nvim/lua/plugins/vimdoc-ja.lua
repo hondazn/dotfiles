@@ -1,1 +1,1 @@
-return { "vim-jp/vimdoc-ja" }
+return { "vim-jp/vimdoc-ja", event = "VeryLazy" }

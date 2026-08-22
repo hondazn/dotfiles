@@ -17,14 +17,11 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
 
--- Setup lazy.nvim
-local lazy_config = require "config.lazy"
-require("lazy").setup({
-	spec = {
-		-- add your plugins here
-		{ import = "plugins" }
-	},
-}, lazy_config)
+-- lazy.setup(spec, opts) は第1引数に spec キーがあると第2引数を捨てるため、
+-- オプションと spec は1つのテーブルにまとめて渡す
+local lazy_config = require("config.lazy")
+lazy_config.spec = { { import = "plugins" } }
+require("lazy").setup(lazy_config)
 
 vim.cmd("colorscheme catppuccin-mocha")
 

@@ -8,9 +8,12 @@ return {
 			transparent_background = true,
 		},
 	},
-	"rose-pine/neovim",
+	-- 起動時に要るのは catppuccin-mocha だけ。他テーマは <leader>ft の一覧に
+	-- 出すため rtp には載せるが、読み込みは起動後で間に合う
+	{ "rose-pine/neovim", event = "VeryLazy" },
 	{
 		"dgox16/oldworld.nvim",
+		event = "VeryLazy",
 		opts = {
 			integrations = {
 				navic = true,
@@ -25,12 +28,13 @@ return {
 			},
 		}
 	},
-	"kvrohit/mellow.nvim",
-	"Yazeed1s/minimal.nvim",
-	"yashguptaz/calvera-dark.nvim",
-	{ "embark-theme/vim", name = "embark" },
+	{ "kvrohit/mellow.nvim", event = "VeryLazy" },
+	{ "Yazeed1s/minimal.nvim", event = "VeryLazy" },
+	{ "yashguptaz/calvera-dark.nvim", event = "VeryLazy" },
+	{ "embark-theme/vim", name = "embark", event = "VeryLazy" },
 	{
 		"xiyaowong/transparent.nvim",
+		event = "VeryLazy",
 		opts = {
 			enable = true,
 		},
