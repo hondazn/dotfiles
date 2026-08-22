@@ -32,11 +32,4 @@ return {
 	{ "Yazeed1s/minimal.nvim", event = "VeryLazy" },
 	{ "yashguptaz/calvera-dark.nvim", event = "VeryLazy" },
 	{ "embark-theme/vim", name = "embark", event = "VeryLazy" },
-	{
-		"xiyaowong/transparent.nvim",
-		event = "VeryLazy",
-		opts = {
-			enable = true,
-		},
-	}
 }
