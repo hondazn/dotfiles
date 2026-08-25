@@ -44,7 +44,7 @@ map("n", "<leader>lt", function() vim.lsp.buf.type_definition() end, { desc = "L
 map("n", "<leader>lR", function() vim.lsp.buf.rename() end, { desc = "LSP rename" })
 
 ---- formatting
-map("n", "<leader>k", function() require("conform").format({ lsp_fallback = true }) end, { desc = "Format File" })
+map("n", "<leader>k", function() require("conform").format({ lsp_format = "fallback" }) end, { desc = "Format File" })
 
 ---- aerial
 map("n", "<leader>lm", "<CMD>AerialToggle!<CR>", { desc = "Aerial: Toggle Code Map" })
