@@ -6,7 +6,6 @@ return {
 	cmd = { "TSInstall", "TSUpdate", "TSBufEnable", "TSBufDisable" },
 	build = ":TSUpdate",
 	config = function()
-		vim.treesitter.language.register("markdown", "octo")
 		require("nvim-treesitter").setup({})
 
 		local ensure = { "lua", "luadoc", "printf", "vim", "vimdoc", "typescript", "markdown", "markdown_inline", "rust" }

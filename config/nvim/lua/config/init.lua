@@ -1,3 +1,6 @@
+-- FileType は起動時に開いたファイルにも発火する。schedule に入れると登録が間に合わない
+require("config.treesitter")
+
 vim.schedule(function()
 	require("config.mappings")
 	require("config.diagnostic")
