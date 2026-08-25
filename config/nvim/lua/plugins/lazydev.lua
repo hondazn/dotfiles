@@ -1,8 +1,7 @@
 return {
 	"folke/lazydev.nvim",
 	lazy = true,
-	event = { "BufReadPost", "BufNewFile" },
-	ft = "lua", -- only load on lua files
+	ft = "lua",
 	opts = {
 		library = {
 			-- See the configuration section for more details
