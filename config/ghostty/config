@@ -22,6 +22,8 @@ window-width = 140
 # window-position-x = 100
 # window-position-y = 180
 
+theme = 0x96f
+
 background-opacity = 0.75
 background-blur = 200
 # background-opacity-cells = true
