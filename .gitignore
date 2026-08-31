@@ -1,4 +1,4 @@
 */nvim/lazy-lock.json
 */karabiner/automatic_backups/
 config/git/config.local
-config/fish/fish_variables
+config/fish/fish_variables*
