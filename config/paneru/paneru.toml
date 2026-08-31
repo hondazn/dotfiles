@@ -36,6 +36,3 @@ right = 8
 [decorations.active.border]
 enabled = true
 color = "#009999"
-
-[decorations.inactive.dim]
-opacity = -0.05
