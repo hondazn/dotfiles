@@ -14,7 +14,7 @@ macOS/Linux対応のdotfilesリポジトリ。外部依存を持たないbashス
 ./test.sh                # install.shの振る舞いを検証
 ```
 
-マッピング定義: `install.sh` 冒頭の `COMMON_TARGETS` / `MACOS_TARGETS` 配列 — `config/<name>` が `~/.config/<name>` にシンボリックリンクされる。macOS専用設定（karabiner, skhd, yabai）は `uname -s` で条件分岐。ターゲットは `herdr/config.toml` のようにネストしたパス（ファイル単位のリンク）も指定できる。リンク先に実体がある場合は `<name>.bak.<日時>` へ退避してから置き換える。
+マッピング定義: `install.sh` 冒頭の `COMMON_TARGETS` / `MACOS_TARGETS` 配列 — `config/<name>` が `~/.config/<name>` にシンボリックリンクされる。macOS専用設定（karabiner, paneru）は `uname -s` で条件分岐。ターゲットは `herdr/config.toml` のようにネストしたパス（ファイル単位のリンク）も指定できる。リンク先に実体がある場合は `<name>.bak.<日時>` へ退避してから置き換える。
 
 macOS標準のbashは3.2のため、連想配列や `mapfile` は使わない。
 
@@ -30,8 +30,9 @@ config/
 ├── herdr/       # Herdr設定（config.tomlのみファイル単位でリンク）
 ├── lazygit/     # LazyGit設定
 ├── karabiner/   # Karabiner-Elements (macOS)
-├── skhd/        # skhd (macOS)
-├── yabai/       # yabai (macOS)
+├── paneru/      # Paneru (macOS)
+├── skhd/        # skhd (macOS・paneruへ移行・デプロイ対象外)
+├── yabai/       # yabai (macOS・paneruへ移行・デプロイ対象外)
 ├── zellij/      # Zellij設定（herdrへ移行・デプロイ対象外）
 ├── tmux/        # tmux設定（未使用・デプロイ対象外）
 └── alacritty/   # Alacritty設定（未使用・デプロイ対象外）

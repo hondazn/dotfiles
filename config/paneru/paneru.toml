@@ -1,0 +1,41 @@
+# basic .paneru.toml
+[options]
+focus_follows_mouse = true
+mouse_follows_focus = true
+horizontal_mouse_warp = 1
+animation_speed = 16
+
+[bindings]
+window_manage = "alt - t"
+window_fullwidth = "alt - f"
+window_stack = "alt - s"
+window_unstack = "alt + shift - s"
+window_nextdisplay = "cmd + alt - j"
+window_swap_west = "cmd + alt - h"
+window_swap_east = "cmd + alt - l"
+window_focus_west = "alt - h"
+window_focus_east = "alt - l"
+window_resize = "alt - r"
+window_shrink = "alt + shift - r"
+window_center = "alt - c"
+quit = "ctrl + alt - q"
+
+[swipe]
+continuous = true
+
+[swipe.gesture]
+fingers_count = 3
+direction = "Natural"
+
+[padding]
+top = 8
+bottom = 8
+left = 8
+right = 8
+
+[decorations.active.border]
+enabled = true
+color = "#009999"
+
+[decorations.inactive.dim]
+opacity = -0.05

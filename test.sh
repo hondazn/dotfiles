@@ -124,6 +124,28 @@ test_skips_retired_targets() {
 
   check 'does not link retired zellij config' \
     "$(path_state "$home/.config/zellij")" absent
+  check 'does not link retired yabai config' \
+    "$(path_state "$home/.config/yabai")" absent
+  check 'does not link retired skhd config' \
+    "$(path_state "$home/.config/skhd")" absent
+  rm -rf "$home"
+}
+
+test_links_macos_paneru() {
+  local home
+  home=$(fake_home)
+
+  HOME="$home" "$INSTALL" >/dev/null
+
+  if [ "$(uname -s)" = Darwin ]; then
+    check 'links paneru on Darwin' \
+      "$(readlink "$home/.config/paneru")" "$REPO_DIR/config/paneru"
+    check 'paneru config file is reachable via the link' \
+      "$(path_state "$home/.config/paneru/paneru.toml")" present
+  else
+    check 'does not link paneru on non-Darwin' \
+      "$(path_state "$home/.config/paneru")" absent
+  fi
   rm -rf "$home"
 }
 
@@ -153,6 +175,7 @@ for testcase in \
   test_links_nested_file_target \
   test_uninstall_keeps_parent_of_nested_target \
   test_skips_retired_targets \
+  test_links_macos_paneru \
   test_uninstall_removes_only_repo_links; do
   "$testcase"
 done
