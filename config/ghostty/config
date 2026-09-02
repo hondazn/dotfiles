@@ -17,8 +17,8 @@ bell-audio-path = /System/Library/Sounds/Glass.aiff
 confirm-close-surface = false
 quit-after-last-window-closed = true
 
-window-height = 40
-window-width = 140
+window-height = 60
+window-width = 200
 # window-position-x = 100
 # window-position-y = 180
 
