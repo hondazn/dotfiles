@@ -12,3 +12,6 @@ root=~/git
 	defaultBranch = main
 [pull]
 	ff = only
+[user]
+	email = hondazn.dev@gmail.com
+	name = hondazn
