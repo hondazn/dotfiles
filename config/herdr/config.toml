@@ -49,7 +49,8 @@ detach = "prefix+d"
 
 [[keys.command]]
 key = "prefix+g"
-command = "lazygit"
+# popup は herdr server の PATH（mise なし）を継ぐ。git hook 用に mise 経由で起動する。
+command = "mise x -- lazygit"
 description = "run lazygit"
 type = "popup"
 width = "80%"
