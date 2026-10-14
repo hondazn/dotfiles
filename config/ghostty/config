@@ -42,6 +42,7 @@ window-width = 200
 
 quick-terminal-position = center
 quick-terminal-size = 60%,25%
+split-preserve-zoom = navigation
 
 theme = 0x96f
 
