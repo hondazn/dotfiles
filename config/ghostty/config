@@ -32,6 +32,7 @@ notify-on-command-finish-action = no-bell,notify
 notify-on-command-finish-after = 30s
 
 confirm-close-surface = false
+undo-timeout = 30s
 quit-after-last-window-closed = true
 
 window-height = 60
