@@ -13,6 +13,7 @@ if status is-interactive
 	source "$HOME/.cargo/env.fish"
 
 	# PATH settings
+	set -gx PATH $HOME/.bun/bin $PATH
 	set -gx PATH $HOME/.local/bin $PATH
 	set -gx PATH $HOME/bin $PATH
 	set -gx XDG_CONFIG_HOME "$HOME/.config"
