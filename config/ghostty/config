@@ -48,7 +48,7 @@ theme = 0x96f
 
 background-opacity = 0.75
 background-blur = 200
-# background-opacity-cells = true
+background-opacity-cells = true
 
 link-url = true
 link-previews =true
