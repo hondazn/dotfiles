@@ -36,3 +36,9 @@ right = 8
 [decorations.active.border]
 enabled = true
 color = "#009999"
+
+[windows.ghostty_quick]
+bundle_id = "com.mitchellh.ghostty"
+title = ".*"
+subrole = "AXFloatingWindow"
+floating = true
