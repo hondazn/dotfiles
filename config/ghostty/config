@@ -27,6 +27,10 @@ font-feature = ss10
 bell-features = audio
 bell-audio-path = /System/Library/Sounds/Glass.aiff
 
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = no-bell,notify
+notify-on-command-finish-after = 30s
+
 confirm-close-surface = false
 quit-after-last-window-closed = true
 
