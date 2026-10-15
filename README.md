@@ -25,3 +25,9 @@ cd ~/.dotfiles
 ./install.sh uninstall   # このリポジトリを指すリンクのみ削除
 ./test.sh                # install.sh の振る舞いを検証
 ```
+
+herdr の plugin はシンボリックリンクではなく herdr 側へ登録する。初回だけ実行する。
+
+```bash
+herdr plugin link config/herdr/plugins/open-in-nvim
+```

@@ -24,8 +24,10 @@ if status is-interactive
 	set -gx CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 1
 
 	# Alias
-	alias ll "eza -la --color=always --group-directories-first --icons"
-	alias la "eza -a --color=always --group-directories-first --icons"
+	alias ll "eza -la --color=always --group-directories-first --icons --hyperlink"
+	alias la "eza -a --color=always --group-directories-first --icons --hyperlink"
+	# herdr の open-in-nvim plugin が #<line> を読んで該当行へ飛ぶ。
+	alias rg "rg --hyperlink-format=kitty"
 	alias gst "git status --short --branch"
 	alias glog "git log --oneline --decorate=short --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cgreen%h %C(yellow)%cd %Cred%d %Creset%s %Cblue<%cn>'"
 	alias ggra "git log --graph --oneline --decorate=short --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cgreen%h %C(yellow)%cd %Cred%d %Creset%s %Cblue<%cn>'"

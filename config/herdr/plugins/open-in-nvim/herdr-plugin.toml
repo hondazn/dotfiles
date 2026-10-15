@@ -1,0 +1,17 @@
+id = "hondazn.open-in-nvim"
+name = "Open in nvim"
+version = "0.1.0"
+min_herdr_version = "0.9.1"
+description = "Ctrl-click した file:// リンクを新しいタブの nvim で開く"
+platforms = ["linux", "macos"]
+
+[[actions]]
+id = "open"
+title = "Open in nvim"
+command = ["fish", "open.fish"]
+
+[[link_handlers]]
+id = "file"
+title = "Open file in nvim"
+pattern = "^file://"
+action = "open"

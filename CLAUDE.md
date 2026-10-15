@@ -30,7 +30,7 @@ config/
 ├── git/         # Git設定
 ├── ghostty/     # Ghosttyターミナル設定
 ├── gh-dash/     # gh-dash設定
-├── herdr/       # Herdr設定（config.tomlのみファイル単位でリンク）
+├── herdr/       # Herdr設定（config.tomlのみファイル単位でリンク、plugins/ は herdr plugin link で登録）
 ├── lazygit/     # LazyGit設定
 ├── karabiner/   # Karabiner-Elements (macOS)
 ├── paneru/      # Paneru (macOS)
@@ -44,6 +44,8 @@ config/
 マルチプレクサは herdr を使う。`config/fish/functions/__herdr_open_tab.fish` が
 `herdr tab create` と `herdr pane run` をまとめており、lazygit・gh-dash から
 新しいタブでコマンドを開く用途はすべてこの関数を経由する。
+`config/herdr/plugins/open-in-nvim` も同じ関数で、Ctrl-click した OSC 8 の
+`file://` リンクを nvim で開く（rg は `#<line>` 付きのリンクを出す alias にしてある）。
 
 ### Neovim設定の構造
 
