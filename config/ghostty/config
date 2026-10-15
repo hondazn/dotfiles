@@ -24,6 +24,9 @@ font-feature = ss08
 font-feature = ss09
 font-feature = ss10
 
+adjust-cell-width = -5%
+adjust-cell-height = -8%
+
 bell-features = audio
 bell-audio-path = /System/Library/Sounds/Glass.aiff
 
