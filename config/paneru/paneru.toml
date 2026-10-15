@@ -2,8 +2,9 @@
 [options]
 focus_follows_mouse = true
 mouse_follows_focus = true
-horizontal_mouse_warp = 1
-animation_speed = 16
+virtual_workspace_animations = true
+reap_empty_workspaces = true
+animation_speed = 8
 
 [bindings]
 window_manage = "alt - t"
@@ -21,6 +22,8 @@ window_center = "alt - c"
 quit = "ctrl + alt - q"
 
 [swipe]
+sensitivity = 0.25
+deceleration = 4.0
 continuous = true
 
 [swipe.gesture]
