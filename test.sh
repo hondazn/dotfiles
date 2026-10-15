@@ -116,6 +116,49 @@ test_uninstall_keeps_parent_of_nested_target() {
   rm -rf "$home"
 }
 
+test_links_agent_instructions_for_both_tools() {
+  local home
+  home=$(fake_home)
+
+  HOME="$home" "$INSTALL" >/dev/null
+
+  check 'links AGENTS.md for opencode' \
+    "$(readlink "$home/.config/opencode/AGENTS.md")" "$REPO_DIR/config/agents/AGENTS.md"
+  check 'links the same file as CLAUDE.md outside ~/.config' \
+    "$(readlink "$home/.claude/CLAUDE.md")" "$REPO_DIR/config/agents/AGENTS.md"
+  rm -rf "$home"
+}
+
+test_backs_up_existing_claude_md() {
+  local home
+  home=$(fake_home)
+  mkdir -p "$home/.claude"
+  printf 'original\n' >"$home/.claude/CLAUDE.md"
+
+  HOME="$home" "$INSTALL" >/dev/null
+
+  check 'links over existing CLAUDE.md' \
+    "$(readlink "$home/.claude/CLAUDE.md")" "$REPO_DIR/config/agents/AGENTS.md"
+  check 'preserves original CLAUDE.md in backup' \
+    "$(cat "$home"/.claude/CLAUDE.md.bak.*)" original
+  rm -rf "$home"
+}
+
+test_uninstall_keeps_other_files_under_claude() {
+  local home
+  home=$(fake_home)
+  HOME="$home" "$INSTALL" >/dev/null
+  printf '{}\n' >"$home/.claude/settings.json"
+
+  HOME="$home" "$INSTALL" uninstall >/dev/null
+
+  check 'removes CLAUDE.md link on uninstall' \
+    "$(path_state "$home/.claude/CLAUDE.md")" absent
+  check 'keeps other files under ~/.claude' \
+    "$(path_state "$home/.claude/settings.json")" present
+  rm -rf "$home"
+}
+
 test_skips_retired_targets() {
   local home
   home=$(fake_home)
@@ -174,6 +217,9 @@ for testcase in \
   test_relinks_dead_symlink \
   test_links_nested_file_target \
   test_uninstall_keeps_parent_of_nested_target \
+  test_links_agent_instructions_for_both_tools \
+  test_backs_up_existing_claude_md \
+  test_uninstall_keeps_other_files_under_claude \
   test_skips_retired_targets \
   test_links_macos_paneru \
   test_uninstall_removes_only_repo_links; do

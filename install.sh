@@ -14,16 +14,27 @@ CONFIG_HOME="$HOME/.config"
 # ディレクトリごとではなく config.toml だけをファイル単位でリンクする。
 COMMON_TARGETS=(git ghostty fish nvim lazygit gh-dash herdr/config.toml)
 MACOS_TARGETS=(karabiner paneru)
+# エージェント指示は1つの実体を複数のツールに読ませる。宛先が ~/.config の外にも
+# 出るため、`config 配下の相対パス:$HOME 起点の宛先` で書く。
+AGENT_TARGETS=(
+  "agents/AGENTS.md:.config/opencode/AGENTS.md"
+  "agents/AGENTS.md:.claude/CLAUDE.md"
+)
 # config/alacritty と config/tmux は chezmoi から移行した際の名残。
 # config/zellij はマルチプレクサを herdr へ移行した際の名残。
 # config/yabai と config/skhd はウィンドウマネージャを paneru へ移行した際の名残。
 # いずれも使っていないため対象に含めない。
 
-targets() {
-  printf '%s\n' "${COMMON_TARGETS[@]}"
+targets() { # -> <config 配下の相対パス>:<$HOME 起点の宛先>
+  printf '%s\n' "${COMMON_TARGETS[@]}" | while read -r name; do
+    printf '%s:.config/%s\n' "$name" "$name"
+  done
   if [ "$(uname -s)" = Darwin ]; then
-    printf '%s\n' "${MACOS_TARGETS[@]}"
+    printf '%s\n' "${MACOS_TARGETS[@]}" | while read -r name; do
+      printf '%s:.config/%s\n' "$name" "$name"
+    done
   fi
+  printf '%s\n' "${AGENT_TARGETS[@]}"
 }
 
 link_destination() { # <パス> -> リンクの参照先。リンクでなければ空
@@ -44,9 +55,9 @@ backup_path() { # <パス> -> まだ使われていない退避先
   printf '%s' "$candidate"
 }
 
-link_target() { # <name> -> ok | link | backup
+link_target() { # <config 配下の相対パス> <$HOME 起点の宛先> -> ok | link | backup
   local source="$REPO_DIR/config/$1"
-  local destination="$CONFIG_HOME/$1"
+  local destination="$HOME/$2"
   local action=link
 
   if [ "$(link_destination "$destination")" = "$source" ]; then
@@ -65,8 +76,8 @@ link_target() { # <name> -> ok | link | backup
   printf '%s' "$action"
 }
 
-unlink_target() { # <name> -> unlink | skip
-  local destination="$CONFIG_HOME/$1"
+unlink_target() { # <config 配下の相対パス> <$HOME 起点の宛先> -> unlink | skip
+  local destination="$HOME/$2"
 
   if [ "$(link_destination "$destination")" != "$REPO_DIR/config/$1" ]; then
     printf 'skip'
@@ -80,13 +91,13 @@ unlink_target() { # <name> -> unlink | skip
 report() { printf '  %-6s %s\n' "$1" "$2"; }
 
 install_all() {
-  local name action
+  local name destination action
   local linked=0 restored=0 unchanged=0
 
   mkdir -p "$CONFIG_HOME"
-  while read -r name; do
-    action=$(link_target "$name")
-    report "$action" "$CONFIG_HOME/$name"
+  while IFS=: read -r name destination; do
+    action=$(link_target "$name" "$destination")
+    report "$action" "$HOME/$destination"
     case "$action" in
       link) linked=$((linked + 1)) ;;
       backup) linked=$((linked + 1)); restored=$((restored + 1)) ;;
@@ -98,12 +109,12 @@ install_all() {
 }
 
 uninstall_all() {
-  local name action
+  local name destination action
   local removed=0 kept=0
 
-  while read -r name; do
-    action=$(unlink_target "$name")
-    report "$action" "$CONFIG_HOME/$name"
+  while IFS=: read -r name destination; do
+    action=$(unlink_target "$name" "$destination")
+    report "$action" "$HOME/$destination"
     case "$action" in
       unlink) removed=$((removed + 1)) ;;
       skip) kept=$((kept + 1)) ;;

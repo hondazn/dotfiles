@@ -16,12 +16,15 @@ macOS/Linux対応のdotfilesリポジトリ。外部依存を持たないbashス
 
 マッピング定義: `install.sh` 冒頭の `COMMON_TARGETS` / `MACOS_TARGETS` 配列 — `config/<name>` が `~/.config/<name>` にシンボリックリンクされる。macOS専用設定（karabiner, paneru）は `uname -s` で条件分岐。ターゲットは `herdr/config.toml` のようにネストしたパス（ファイル単位のリンク）も指定できる。リンク先に実体がある場合は `<name>.bak.<日時>` へ退避してから置き換える。
 
+`~/.config` の外に出る宛先は `AGENT_TARGETS` に `<config 配下の相対パス>:<$HOME 起点の宛先>` で書く。1つの実体を複数の宛先から読ませる用途もここで賄う（`config/agents/AGENTS.md` → `~/.config/opencode/AGENTS.md` と `~/.claude/CLAUDE.md`）。
+
 macOS標準のbashは3.2のため、連想配列や `mapfile` は使わない。
 
 ## アーキテクチャ
 
 ```
 config/
+├── agents/      # エージェント共通指示（opencode の AGENTS.md と Claude Code の CLAUDE.md へ）
 ├── nvim/        # Neovim設定 (lazy.nvim, catppuccin-mocha)
 ├── fish/        # Fish shell設定 (mise, sk, cargo)
 ├── git/         # Git設定

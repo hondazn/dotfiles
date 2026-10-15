@@ -18,6 +18,8 @@ cd ~/.dotfiles
 `config/<name>` を `~/.config/<name>` にシンボリックリンクする。
 リンク先に実体がある場合は `<name>.bak.<日時>` へ退避してから置き換える。
 
+エージェント指示は `config/agents/AGENTS.md` の1ファイルを実体とし、opencode の `~/.config/opencode/AGENTS.md` と Claude Code の `~/.claude/CLAUDE.md` の両方から読ませる。
+
 ```bash
 ./install.sh             # リンクの作成・更新
 ./install.sh uninstall   # このリポジトリを指すリンクのみ削除
