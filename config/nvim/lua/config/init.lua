@@ -65,6 +65,13 @@ if not vim.g.neovide then
 	}
 end
 
+o.winborder = "rounded"
+o.pumborder = "rounded"
+
+-- :Undotree と :DiffTool
+vim.cmd.packadd("nvim.undotree")
+vim.cmd.packadd("nvim.difftool")
+
 opt.helplang = "ja"
 opt.shortmess:append("sI")
 opt.scrolloff = 16
