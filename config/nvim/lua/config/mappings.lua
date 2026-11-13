@@ -55,12 +55,10 @@ map("n", "<leader>ghp", "<CMD>Octo pr list<CR>", { desc = "Octo: PullRequest Lis
 map("n", "<leader>ghc", "<CMD>Octo comment add<CR>", { desc = "Octo: Comment Add" })
 map("n", "<leader>ghn", "<CMD>Octo issue create<CR>", { desc = "Octo: Issue Create" })
 
----- noice
-map("n", "<leader>nn", "<CMD>Noice dismiss<CR>", { desc = "Noice" })
-
 ---- snacks
 --- @module "snacks"
 
+map("n", "<leader>nn", function() Snacks.notifier.hide() end, { desc = "Dismiss notifications" })
 map("n", "<leader>nh", function() Snacks.notifier.show_history() end, { desc = "Notify History" })
 map("n", "<C-S-p>", function() Snacks.picker.commands() end, { desc = "Select commands" })
 map("n", "<leader>fc", function() Snacks.picker.commands() end, { desc = "Select commands" })

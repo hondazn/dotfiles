@@ -68,6 +68,9 @@ end
 o.winborder = "rounded"
 o.pumborder = "rounded"
 
+-- メッセージとコマンドラインの新 UI（0.12 時点で実験的）。Press ENTER を出さない
+require("vim._core.ui2").enable({})
+
 -- :Undotree と :DiffTool
 vim.cmd.packadd("nvim.undotree")
 vim.cmd.packadd("nvim.difftool")
