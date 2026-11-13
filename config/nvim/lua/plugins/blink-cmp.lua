@@ -16,6 +16,8 @@ return {
 			["<CR>"] = { "select_and_accept", "fallback" },
 			["<C-j>"] = { "snippet_forward", "fallback" },
 			["<S-C-j>"] = { "snippet_backward", "fallback" },
+			-- AI 補完を長めの出力で手動リクエストする
+			["<C-q>"] = { function(cmp) return require("config.minuet_blink").request(cmp) end },
 		},
 		completion = {
 			menu = {
@@ -38,8 +40,17 @@ return {
 			},
 		},
 		sources = {
+			-- minuet は <C-q> で手動のときだけ呼ぶ（自動は minuet の virtualtext）
 			default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 			providers = {
+				minuet = {
+					name = "minuet",
+					module = "config.minuet_blink",
+					async = true,
+					-- 手動リクエストの打ち切り（config/minuet_blink.lua の MANUAL_TIMEOUT_SEC）に合わせる
+					timeout_ms = 8000,
+					score_offset = 50,
+				},
 				lazydev = {
 					name = "LazyDev",
 					module = "lazydev.integrations.blink",
