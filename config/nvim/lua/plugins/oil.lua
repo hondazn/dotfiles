@@ -15,5 +15,5 @@ return {
 			["<C-\\>"] = { "actions.select", opts = { vertical = true } },
 		},
 	},
-	dependencies = { { "echasnovski/mini.icons", opts = {} } },
+	dependencies = { "nvim-mini/mini.icons" },
 }
