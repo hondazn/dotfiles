@@ -39,5 +39,3 @@ dotfilesリポジトリのルートで実行する。
 ```sh
 ./install.sh
 ```
-
-nvimで起動したら、 `:Copilot auth` で Copilot を使えるようにしておく。
