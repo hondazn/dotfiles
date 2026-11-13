@@ -1,7 +1,7 @@
 -- vim.lsp.enable() は既存バッファにも遡って適用するため、起動時に開いたファイルには
 -- その場でサーバが起動する。共通設定は enable より前に置く
 vim.lsp.config("*", {
-	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+	capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
 
 vim.lsp.enable("lua_ls")
